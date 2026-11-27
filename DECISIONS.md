@@ -31,3 +31,16 @@ One entry per major decision: what we chose, what else we considered, why.
 ## D-005 Acceptance tests prove each scenario is detectable from raw data
 - **Chosen:** tests check, using raw files only, that each scenario leaves a statistically visible signal.
 - **Why:** if a scenario is too weak to detect, the agents would be evaluated on an impossible task.
+
+## D-006 Tech stack: AWS-native, production-style
+- **Chosen:** Python 3.11; pandas + Parquet + DuckDB + Pandera for data; SciPy/statsmodels then
+  scikit-learn for anomaly detection; **AWS Bedrock** (Claude models + embeddings) as the LLM; a plain
+  Python agent loop first, then LangGraph; Pydantic for structured outputs; PostgreSQL + pgvector for app
+  data, sessions and RAG; Redis for caching; FastAPI with streaming; Langfuse for tracing; pytest-based eval
+  harness; Docker Compose locally; GitHub Actions CI; AWS (S3, ECS Fargate, RDS, ElastiCache, Secrets
+  Manager, CloudWatch) provisioned with Terraform.
+- **Considered:** direct Claude/OpenAI API (simpler setup), a separate vector database, Snowflake,
+  LangSmith.
+- **Why:** goal is maximum closeness to production. One cloud account for LLM, data and deployment;
+  pgvector avoids an extra service at this scale; DuckDB is free and local; Langfuse is open source and
+  self-hosted. Building the agent loop by hand first shows what LangGraph does underneath.
