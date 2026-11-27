@@ -9,6 +9,28 @@ Each step lists what happens and why. See `PROBLEM_STATEMENT.md` for the problem
   - **Cart 2:** the final sterilizing filter, just before the filler.
 - 4 crews per line, day and night shifts, rotating every 2 days.
 
+### Carts per line
+| Line | Cart 1 (formulation) | Cart 2 (final fill) |
+|---|---|---|
+| LINE-A | FITC-A1 | FITC-A2 |
+| LINE-B | FITC-B1 | FITC-B2 |
+| LINE-C | FITC-C1 | FITC-C2 |
+
+- **Naming:** FITC = filter integrity test cart. The letter is the line, the number is the role
+  (`FITC-B1` = line B, cart 1). Lines are letters (A, B, C), never numbers.
+- **Same type, different machines:** 6 physical carts of the same kind. A cart never moves to another line.
+- **Each cart has its own normal level** (healthy flows differ slightly between carts) and its own
+  maintenance history. Compare each cart to its own history, not to an average of all carts.
+- **Why two carts per line:** two filters in two positions (formulation transfer, before the filler), each
+  tested on its own cart next to it. Both are prepared and tested at the same time, and no cart is moved or
+  reconnected between positions.
+- **The cart is the test machine, the filter is the thing tested.** The cart is reusable equipment; the
+  filter is single-use. A worn seal or drifting sensor in the cart can make a good filter look bad, or a bad
+  filter look good.
+- **In the data,** each system writes the cart differently (`B1`, `FITC_B1`, `Cart B1`, `FITC-B1`,
+  `PLT1-LB-FITC1`). `FITC-B1` is the official ID in `data/reference/equipment_master.csv`; silver maps every
+  spelling to it.
+
 ## 2. The filter
 - **What:** a sterilizing-grade filter capsule: a 0.2 µm PES (polyethersulfone) membrane in a plastic housing.
 - **Why:** it removes bacteria from the drug solution. The products cannot be heat-sterilized after filling,
