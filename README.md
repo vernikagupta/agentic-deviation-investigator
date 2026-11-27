@@ -22,4 +22,5 @@ python -m datagen.generate     # generate data/ (~1 min, deterministic, not comm
 pytest tests                   # dataset acceptance tests
 ```
 
-See `data/README.md` for the data dictionary and `DECISIONS.md` for design decisions.
+See `PROBLEM_STATEMENT.md` for the problem being solved, `DOMAIN_NOTES.md` for the process,
+`data/README.md` for the data dictionary and `DECISIONS.md` for design decisions.
