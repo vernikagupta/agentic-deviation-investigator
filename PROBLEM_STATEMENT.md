@@ -32,6 +32,17 @@ investigated.
 - Past cases are not reused. A closed deviation with the same failure on another cart exists in QMS, but
   nobody searches it.
 
+## End users
+| User | Uses it for | Needs from it |
+|---|---|---|
+| **Process engineer** (main user) | Receives early warnings and investigation drafts, checks the evidence, edits the draft. | Correct cause, linked evidence, what was ruled out, past cases. |
+| **QA specialist** (main user) | Reviews the investigation, approves or rejects the conclusion before the deviation is closed in QMS. | Clear reasoning, sources, audit trail. QA signs, not the system. |
+| **Maintenance engineer** | Acts on equipment findings (for example "check the inlet seal on cart B2"). | A specific equipment and check, early enough to plan the work. |
+| **Production supervisor / shift lead** | Sees alerts for their line during the shift. | A short alert: what, which equipment, how urgent. |
+| **Management** (site quality head, operations head) | Occasionally reviews trends: deviation counts, closure time, repeat failures. | Summary numbers, not details. |
+
+If the process engineer and QA do not trust the system, nobody will use it.
+
 ## What the users need
 1. **Early warning:** detect a trend or shift before a test fails.
 2. **Investigation support:** when a failure happens, one place that:
@@ -42,8 +53,29 @@ investigated.
    - points to similar past cases.
 3. **Human approval:** a person approves the conclusion. QA signs, not the system.
 
-## Success measures (draft, to confirm with the business owner)
-- The correct root cause is in the system's top suggestions for planted events.
-- Drifts are flagged before the first failed test.
-- Red herrings (coincidental changes) are ruled out with evidence.
-- Every conclusion cites the source records it is based on.
+## Acceptance criteria
+Agreed with the process engineer. QA may add their own. Items marked **(fixed)** are not negotiable;
+the numbers in the others can be adjusted.
+
+### Early detection
+1. A slow drift on a cart is flagged before the first failed test, ideally several batches earlier.
+2. False alarms: at most about 1 per line per month.
+3. Normal changes are not raised as faults (for example, flows rising slightly in spec when the room is warmer).
+4. Stations are covered too: fill weight per needle, stoppering vacuum, Tyvek removal alarms.
+
+### Investigation
+5. The correct root cause is the first suggestion in most cases and in the top 3 almost always.
+6. **(fixed)** Every statement cites its source record: batch, assembly, lot, work order, deviation,
+   autoclave cycle.
+7. It states which causes were ruled out and why.
+8. **(fixed)** It uses only data that existed at the investigation time ("as of").
+9. It finds similar past deviations and says how this case is similar or different.
+10. If the evidence is not enough, it says so instead of guessing.
+
+### Speed
+11. A draft investigation is ready within 1 hour of the trigger.
+
+### Control and compliance (GMP)
+12. **(fixed)** Nothing goes into QMS without a person approving it. The person can approve, reject or edit.
+13. **(fixed)** Every run is recorded: data used, conclusion, who approved and when (audit trail, data integrity).
+14. Bad data from one system does not stop the system. It reports what was missing or bad and continues.

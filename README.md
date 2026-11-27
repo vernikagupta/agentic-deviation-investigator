@@ -8,7 +8,8 @@ approving the conclusion.
 Independent project. All data is synthetic and fictional.
 
 ## Status
-- [x] Synthetic dataset v2: 2 years of daily drops from 11 source systems, planted scenarios, answer key
+- [x] Synthetic dataset v2: 2 years of daily drops from 9 source systems plus reference data and SOPs,
+  planted scenarios, answer key
 - [ ] Ingestion and data quality
 - [ ] Anomaly detection per station
 - [ ] Agent investigation (tools, orchestration, multi-hop, human approval)
@@ -23,4 +24,4 @@ pytest tests                   # dataset acceptance tests
 ```
 
 See `PROBLEM_STATEMENT.md` for the problem being solved, `DOMAIN_NOTES.md` for the process,
-`data/README.md` for the data dictionary and `DECISIONS.md` for design decisions.
+`DATA_OVERVIEW.md` for systems and data delivery, `data/README.md` for the data dictionary and `DECISIONS.md` for design decisions.
