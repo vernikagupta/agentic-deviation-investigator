@@ -1,0 +1,143 @@
+{
+  "label_use": "OFFLINE EVALUATION ONLY - never load into pipelines, prompts, retrieval or features",
+  "scenarios": {
+    "S1_cart_seal_wear": {
+      "type": "equipment_degradation",
+      "entity": "FITC-B2",
+      "start_day": 35,
+      "fix_day": 62,
+      "pupsit_slope_per_assembly": 0.085,
+      "pre_it_slope_per_assembly": 0.01,
+      "cause": "Worn inlet seal on cart FITC-B2 causing a growing gas leak during integrity tests; fixed by corrective work order replacing the seal.",
+      "root_cause_class": "equipment",
+      "start_utc": "2026-07-06T06:00:00Z",
+      "fix_utc": "2026-08-02T06:00:00Z"
+    },
+    "S2_bad_filter_lot": {
+      "type": "supplier_lot",
+      "entity": "VL2-0719",
+      "vendor": "V-FLT-02",
+      "start_day": 50,
+      "end_day": 64,
+      "lines": [
+        "A",
+        "C"
+      ],
+      "pupsit_shift": [
+        0.7,
+        1.7
+      ],
+      "pre_it_shift": [
+        0.1,
+        0.25
+      ],
+      "cause": "Filter capsule lot VL2-0719 from V-FLT-02 had a membrane defect; elevated PUPSIT flow on every cart that used it, re-testing does not help.",
+      "root_cause_class": "supplier",
+      "start_utc": "2026-07-21T06:00:00Z",
+      "end_utc": "2026-08-04T06:00:00Z"
+    },
+    "S3_incomplete_wetting": {
+      "type": "procedural",
+      "entity": "all carts (concentrated on line C)",
+      "base_rate": 0.03,
+      "line_c_rate": 0.18,
+      "line_c_start_day": 80,
+      "line_c_end_day": 95,
+      "cause": "Short manual wetting time leaves the membrane partly dry; first pre-IT attempt fails high, passes after re-wetting. Not a real defect.",
+      "root_cause_class": "procedure",
+      "line_c_start_utc": "2026-08-20T06:00:00Z",
+      "line_c_end_utc": "2026-09-04T06:00:00Z"
+    },
+    "S4_autoclave_overtemp": {
+      "type": "process_equipment",
+      "entity": "AC-02",
+      "start_day": 71,
+      "fix_day": 75,
+      "max_temp_c": [
+        127.0,
+        129.5
+      ],
+      "pupsit_shift": [
+        1.3,
+        2.2
+      ],
+      "cause": "Autoclave AC-02 temperature controller overshoot damaged filter membranes during sterilization: pre-IT normal, PUPSIT high. Lines B and C.",
+      "root_cause_class": "process_equipment",
+      "start_utc": "2026-08-11T06:00:00Z",
+      "fix_utc": "2026-08-15T06:00:00Z"
+    },
+    "S5_sensor_drift": {
+      "type": "measurement",
+      "entity": "FITC-C1",
+      "start_day": 20,
+      "fix_day": 58,
+      "reported_factor_per_day": -0.009,
+      "cause": "Flow/pressure transducer on cart FITC-C1 drifting low; reported flows decrease over time until recalibration (PMCAL). Risk: masks real failures.",
+      "root_cause_class": "measurement",
+      "start_utc": "2026-06-21T06:00:00Z",
+      "fix_utc": "2026-07-29T06:00:00Z"
+    },
+    "S6_warm_room": {
+      "type": "benign_environment",
+      "entity": "LINE-A room",
+      "start_day": 88,
+      "end_day": 96,
+      "temp_c": [
+        25.0,
+        27.5
+      ],
+      "cause": "HVAC adjustment raised line A room temperature; diffusion flows rise slightly but stay in spec. Expected behaviour, not a fault.",
+      "root_cause_class": "benign",
+      "start_utc": "2026-08-28T06:00:00Z",
+      "end_utc": "2026-09-05T06:00:00Z"
+    },
+    "S7_tyvek_gripper_wear": {
+      "type": "equipment_degradation",
+      "entity": "TRR-A",
+      "start_day": 40,
+      "fix_day": 52,
+      "alarm_rate_peak": 0.06,
+      "cause": "Vacuum cups on Tyvek removal robot TRR-A wearing out; rising lid removal alarms and downtime, no product impact. Fixed by CM work order.",
+      "root_cause_class": "equipment",
+      "start_utc": "2026-07-11T06:00:00Z",
+      "fix_utc": "2026-07-23T06:00:00Z"
+    },
+    "S8_filler_needle_underfill": {
+      "type": "equipment_degradation",
+      "entity": "FILLER-B needle 7",
+      "start_day": 40,
+      "fix_day": 60,
+      "max_bias_mg": -30.0,
+      "cause": "Dosing pump for needle 7 on FILLER-B wearing; fill weight drifts low. Overlaps in time with S1 but is unrelated to the filter cart.",
+      "root_cause_class": "equipment",
+      "start_utc": "2026-07-11T06:00:00Z",
+      "fix_utc": "2026-07-31T06:00:00Z"
+    },
+    "S9_vacuum_pump_degradation": {
+      "type": "equipment_degradation",
+      "entity": "VAC-A",
+      "start_day": 100,
+      "fix_day": 115,
+      "max_vacuum_rise_mbar": 85.0,
+      "cause": "Vacuum pump VAC-A at the line A stoppering station losing capacity; weaker vacuum and more variable plunger depth until PM service.",
+      "root_cause_class": "equipment",
+      "start_utc": "2026-09-09T06:00:00Z",
+      "fix_utc": "2026-09-24T06:00:00Z"
+    },
+    "RH1_new_lot_coincidence": {
+      "type": "red_herring",
+      "entity": "VL1-0802",
+      "vendor": "V-FLT-01",
+      "start_day": 34,
+      "end_day": 46,
+      "lines": [
+        "A",
+        "B"
+      ],
+      "cause": "New filter lot introduced around the start of S1. Used on lines A and B with normal results everywhere except FITC-B2 - the lot is NOT the cause.",
+      "root_cause_class": "none",
+      "start_utc": "2026-07-05T06:00:00Z",
+      "end_utc": "2026-07-17T06:00:00Z"
+    }
+  }
+}

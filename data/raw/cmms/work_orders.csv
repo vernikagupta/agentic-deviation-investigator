@@ -1,0 +1,55 @@
+wonum,location,worktype,createdate,actfinish,statusdate,description,longdescription,siteid
+700648,PLT1-LC-TRR,PM,2026-06-08 13:17:18,2026-06-09 15:52:01,2026-06-09 15:52:01,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+701015,PLT1-LC-VAC,CM,2026-06-10 05:10:23,2026-06-10 18:58:26,2026-06-10 18:58:26,Oil level topped up,<div>Issue resolved on site.</div>,PLT1
+700814,PLT1-LC-FILLER,PM,13/06/2026 12:00 PM,13/06/2026 11:01 PM,13/06/2026 11:01 PM,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700177,PLT1-LA-FITC-02,PMCAL,14/06/2026 12:47 AM,14/06/2026 05:47 AM,14/06/2026 05:47 AM,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+700973,PLT1-LB-VAC,PM,2026-06-15 08:43:31,2026-06-15 16:47:56,2026-06-15 16:47:56,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700271,PLT1-LB-FITC-01,PMCAL,20/06/2026 02:02 AM,21/06/2026 07:08 AM,21/06/2026 07:08 AM,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+700350,PLT1-LC-FITC-01,PMCAL,22/06/2026 02:19 AM,22/06/2026 08:44 AM,22/06/2026 08:44 AM,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+700720,PLT1-LA-FILLER,PM,23/06/2026 01:28 AM,24/06/2026 06:31 AM,31:46.0,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700405,PLT1-LC-FITC-02,PMCAL,2026-06-23 13:46:19,2026-06-24 17:29:19,2026-06-24 17:29:19,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+701007,PLT1-LC-VAC,PM,2026-06-23 22:51:34,2026-06-25 04:07:27,2026-06-25 04:07:27,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700329,PLT1-LB-FITC-02,PMCAL,24/06/2026 03:08 AM,24/06/2026 07:23 AM,23:52.0,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+700923,PLT1-LA-VAC,PM,2026-06-25 07:00:01,2026-06-26 06:39:02,2026-06-26 06:39:02,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700489,PLT1-UTIL-AC02,PM,29/06/2026 02:11 AM,29/06/2026 07:23 AM,29/06/2026 07:23 AM,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700104,PLT1-LA-FITC-01,PMCAL,29/06/2026 04:47 AM,30/06/2026 08:18 AM,30/06/2026 08:18 AM,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+700428,PLT1-UTIL-AC01,PM,2026-06-30 18:26:29,2026-07-01 09:45:53,2026-07-01 09:45:53,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700627,PLT1-LB-TRR,PM,2026-07-03 07:21:46,2026-07-04 00:16:02,16:02.0,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700756,PLT1-LB-FILLER,PM,2026-07-08 09:41:41,2026-07-09 01:18:35,2026-07-09 01:18:35,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700559,PLT1-LA-TRR,PM,2026-07-10 18:25:12,2026-07-11 07:03:01,2026-07-11 07:03:01,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700784,PLT1-LB-FILLER,SA,11/07/2026 07:48 AM,11/07/2026 11:02 AM,11/07/2026 11:02 AM,Needle guard sensor cleaned,<div>Issue resolved on site.</div>,PLT1
+701084,PLT1-LB-FITC-02,CM,14/07/2026 03:37 PM,15/07/2026 12:16 PM,16:15.0,Check flow readings trending up,"<p>Operator reported higher readings. Visual check OK, no action taken.</p>",PLT1
+700849,PLT1-LC-FILLER,CM,17/07/2026 07:08 PM,18/07/2026 02:36 PM,18/07/2026 02:36 PM,Needle guard sensor cleaned,<div>Issue resolved on site.</div>,PLT1
+701130,PLT1-LA-TRR,SA,2026-07-23 09:17:03,2026-07-24 08:34:50,2026-07-24 08:34:50,Frequent lid removal alarms,<p>Vacuum cups on lid gripper worn and cracked. Replaced all 6 cups.</p>,PLT1
+700534,PLT1-UTIL-AC02,CM,26/07/2026 02:37 AM,27/07/2026 07:13 AM,27/07/2026 07:13 AM,Chart recorder pen replaced,<div>Issue resolved on site.</div>,PLT1
+700641,PLT1-LB-TRR,CM,28/07/2026 01:20 PM,28/07/2026 06:12 PM,28/07/2026 06:12 PM,Light curtain realigned,<div>Issue resolved on site.</div>,PLT1
+701112,PLT1-LC-FITC1,PMCAL,2026-07-29 01:42:40,2026-07-29 16:43:35,2026-07-29 16:43:35,Calibration - flow transducer out of tolerance,<p>As found: flow transducer reading <b>about 30% low</b> vs reference. Adjusted and recalibrated. As left within tolerance.</p>,PLT1
+701132,PLT1-LB-FILLER,CM,31/07/2026 03:29 AM,01/08/2026 04:33 AM,01/08/2026 04:33 AM,Needle 7 low fill weights,<p>Dosing pump 7 piston seal worn. Replaced piston and seal. Gravimetric check passed.</p>,PLT1
+701049,PLT1-LB-FITC2,CM,02/08/2026 05:31 AM,02/08/2026 08:38 AM,02/08/2026 08:38 AM,PUPSIT failures - leak check on cart,<p>Leak test on cart found <b>gas leak at inlet manifold</b>. Inlet seal worn and flattened. Replaced inlet seal kit. Post-repair leak test passed.</p>,PLT1
+701010,PLT1-LC-VAC,CM,2026-08-13 00:00:38,2026-08-13 11:51:52,2026-08-13 11:51:52,Oil level topped up,<div>Issue resolved on site.</div>,PLT1
+700283,PLT1-LB-FITC1,PMCAL,13/08/2026 11:27 PM,14/08/2026 12:02 PM,14/08/2026 12:02 PM,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+700816,PLT1-LC-FILLER,PM,2026-08-14 08:57:14,2026-08-15 13:56:31,2026-08-15 13:56:31,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+701123,PLT1-UTIL-AC02,CM,2026-08-15 02:16:47,2026-08-16 02:54:47,2026-08-16 02:54:47,Temperature overshoot alarms,<p>Chamber temperature controller overshooting setpoint. Replaced <b>temperature probe</b> and retuned controller. Verification cycle passed.</p>,PLT1
+700213,PLT1-LA-FITC2,PMCAL,2026-08-17 07:58:50,2026-08-17 15:42:12,2026-08-17 15:42:12,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+700591,PLT1-LA-TRR,CM,2026-08-17 09:44:23,2026-08-17 14:49:12,2026-08-17 14:49:12,Light curtain realigned,<div>Issue resolved on site.</div>,PLT1
+700981,PLT1-LB-VAC,PM,17/08/2026 08:01 PM,18/08/2026 05:39 AM,18/08/2026 05:39 AM,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700798,PLT1-LB-FILLER,CM,18/08/2026 03:37 PM,18/08/2026 09:03 PM,18/08/2026 09:03 PM,Star wheel lubrication,<div>Issue resolved on site.</div>,PLT1
+700683,PLT1-LC-TRR,PM,2026-08-20 11:10:03,2026-08-20 21:28:39,2026-08-20 21:28:39,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700945,PLT1-LA-VAC,PM,2026-08-23 12:40:06,2026-08-24 18:34:42,2026-08-24 18:34:42,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700357,PLT1-LC-FITC1,PMCAL,24/08/2026 02:17 AM,25/08/2026 02:16 AM,25/08/2026 02:16 AM,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+700301,PLT1-LB-FITC1,CM,2026-08-26 14:19:00,2026-08-27 08:59:37,2026-08-27 08:59:37,Printer jam on test report printer,<div>Issue resolved on site.</div>,PLT1
+701000,PLT1-LB-VAC,CM,28/08/2026 08:11 AM,28/08/2026 12:39 PM,28/08/2026 12:39 PM,Oil level topped up,<div>Issue resolved on site.</div>,PLT1
+701009,PLT1-LC-VAC,PM,2026-08-29 04:30:31,2026-08-30 07:01:08,2026-08-30 07:01:08,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700427,PLT1-LC-FITC2,PMCAL,2026-08-31 02:37:54,2026-09-01 06:05:24,2026-09-01 06:05:24,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+700510,PLT1-UTIL-AC02,PM,2026-08-31 17:06:43,2026-09-01 01:45:23,2026-09-01 01:45:23,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700239,PLT1-LA-FITC2,CM,2026-09-05 09:03:35,2026-09-06 02:24:09,2026-09-06 02:24:09,"Display intermittently blank, reseated cable",<div>Issue resolved on site.</div>,PLT1
+700722,PLT1-LA-FILLER,PM,2026-09-05 13:25:12,2026-09-06 07:38:27,2026-09-06 07:38:27,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700336,PLT1-LB-FITC2,PMCAL,2026-09-06 01:54:45,2026-09-06 08:31:35,2026-09-06 08:31:35,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+700463,PLT1-UTIL-AC01,PM,2026-09-07 05:25:38,2026-09-07 17:28:26,2026-09-07 17:28:26,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700388,PLT1-LC-FITC1,CM,2026-09-07 09:01:24,2026-09-08 11:27:30,2026-09-08 11:27:30,"Display intermittently blank, reseated cable",<div>Issue resolved on site.</div>,PLT1
+700767,PLT1-LB-FILLER,PM,09/09/2026 09:42 PM,10/09/2026 11:01 AM,10/09/2026 11:01 AM,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700138,PLT1-LA-FITC1,PMCAL,10/09/2026 08:51 AM,10/09/2026 11:06 PM,10/09/2026 11:06 PM,Quarterly calibration - pressure and flow transducers,<div>Calibrated pressure transducer and mass flow meter against reference. As found within tolerance.</div>,PLT1
+700635,PLT1-LB-TRR,PM,10/09/2026 07:04 PM,11/09/2026 04:04 AM,11/09/2026 04:04 AM,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+700572,PLT1-LA-TRR,PM,23/09/2026 12:38 PM,24/09/2026 06:21 AM,24/09/2026 06:21 AM,Preventive maintenance,<div>Routine PM checklist completed. No abnormalities.</div>,PLT1
+701152,PLT1-LA-VAC,PM,2026-09-24 08:16:52,2026-09-24 11:31:01,2026-09-24 11:31:01,Vacuum pump service,"<p>Pump vanes worn, ultimate vacuum degraded. Replaced vanes and oil. Ultimate vacuum restored.</p>",PLT1
+700887,PLT1-LC-FILLER,CM,2026-09-26 23:58:20,2026-09-27 04:03:20,03:20.0,Star wheel lubrication,<div>Issue resolved on site.</div>,PLT1

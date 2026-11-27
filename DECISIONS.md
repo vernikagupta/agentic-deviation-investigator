@@ -1,0 +1,33 @@
+# Decisions Log
+
+One entry per major decision: what we chose, what else we considered, why.
+
+## D-001 Domain: sterile syringe fill line, filter integrity testing as the core
+- **Chosen:** a fictional prefilled-syringe line with Tyvek removal, two filter integrity test carts per line,
+  rotary filling and vacuum stoppering. Filter integrity is the main investigation area.
+- **Considered:** automotive welding line (data already existed), filter integrity only.
+- **Why:** filter integrity investigations need evidence from many systems (historian, MES, ERP, CMMS,
+  autoclave, QMS), which is exactly what an agentic investigator is for. The other stations add cases where
+  evidence is unrelated, so agents must tell related from unrelated.
+
+## D-002 Synthetic data in two layers: truth, then messy export
+- **Chosen:** simulate what physically happened first (`datagen/simulate.py`), then write what each source
+  system would record, with its own flaws (`datagen/export.py`).
+- **Considered:** writing messy CSVs directly.
+- **Why:** every messy file can be checked against a known truth, and the answer key (`data/eval/`) is
+  produced from the same run, so evaluation is exact.
+
+## D-003 Planted scenarios overlap in time on purpose
+- **Chosen:** e.g. cart seal wear (S1) overlaps a new filter lot (red herring) and a filler needle problem
+  (S8); sensor drift (S5) overlaps the bad filter lot (S2) on line C.
+- **Considered:** isolated, one-at-a-time scenarios.
+- **Why:** real investigations are hard because several things change at once. Agents must rule causes out,
+  not only find one that fits.
+
+## D-004 Answer key isolated in `data/eval/`, enforced by a test
+- **Chosen:** no scenario names or labels anywhere in `data/raw`; `tests/test_datagen.py` fails if they leak.
+- **Why:** prevents accidentally training on, or prompting with, the answers.
+
+## D-005 Acceptance tests prove each scenario is detectable from raw data
+- **Chosen:** tests check, using raw files only, that each scenario leaves a statistically visible signal.
+- **Why:** if a scenario is too weak to detect, the agents would be evaluated on an impossible task.

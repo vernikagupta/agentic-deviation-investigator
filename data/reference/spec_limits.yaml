@@ -1,0 +1,12 @@
+# Fictional specification limits used by the line (not real values)
+pre_it_max_ml_min: 1.6
+pupsit_max_ml_min: 4.2
+post_use_max_ml_min: 4.5
+wetting_min_s: 60
+test_pressure_mbar: 2500
+fill_weight_tolerance_pct: 2.0
+stopper_vacuum_max_mbar_abs: 150
+plunger_depth_min_mm: 7.5
+plunger_depth_max_mm: 8.5
+autoclave_temp_min_c: 121.0
+autoclave_temp_max_c: 124.0
