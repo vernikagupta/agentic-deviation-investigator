@@ -64,3 +64,13 @@ One entry per major decision: what we chose, what else we considered, why.
 - **Chosen:** `data/raw/` and `data/eval/` are gitignored; anyone can regenerate them deterministically.
   Reference data, SOP docs and the data dictionary are committed.
 - **Why:** about 200 MB of CSVs does not belong in git. In production the drops land in S3.
+
+## D-010 Minimal CI before the first code PR, not in Phase 6
+- **Chosen:** before Day 2 (landing + bronze), add a GitHub Actions workflow that runs `pytest` on every
+  pull request, and branch protection on `main` so a PR cannot merge unless it passes. All changes reach
+  `main` through a feature branch and a PR. Linting and the eval harness are added later. CD (automatic AWS
+  deployment) stays in Phase 6.
+- **Considered:** CI in Phase 6 with the rest of the deployment work (original plan).
+- **Why:** the production standard "CI blocks merges on failure" cannot hold in Phases 2-5 without CI.
+  Real teams add basic CI at the start; adding it late means months of code never checked automatically.
+  CD waits because there is nothing to deploy until the API exists.

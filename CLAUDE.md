@@ -19,6 +19,9 @@ Read first: `README.md`, `data/README.md` (data dictionary and deliberate data p
 1. **She writes the code.** Claude explains, reviews and unblocks. Do not write core logic for her
    (ingestion rules, anomaly detection, agent loop, orchestration, caching, eval). Boilerplate, config,
    test scaffolding and data generation may be written by Claude when she asks.
+   **Exception: CI/CD is a learning goal.** She writes GitHub Actions workflows, branch protection setup,
+   Docker, Terraform and deployment config herself. Claude teaches and reviews, and must not write them for
+   her. When a step needs CI/CD, stop and make her do it.
 2. **Teaching style:** plain, literal English, short points, no analogies or metaphors. One question or one
    step at a time. She answers first, then feedback in short points. Never give the next question or step
    until she asks; she often has follow-ups.
@@ -46,11 +49,12 @@ Terraform.
 | Phase | Content |
 |---|---|
 | 1 | Synthetic data (done: `datagen/`, 2 years of daily drops, 15 acceptance tests) |
+| 1b | Minimal CI (D-010): GitHub Actions runs pytest on every PR, branch protection on `main`. Before Day 2 |
 | 2 | Ingestion: S3 landing → bronze (Parquet + source metadata) → silver (schema mapping, aliases, units, UTC, dedupe, upsert resolution, ERP reversals, data quality + quarantine) → gold (one row per assembly with batch match, lot, crew, autoclave cycle, cycles since service) |
 | 3 | Anomaly detection per station (control charts, Nelson rules, percentile limits, then ML) |
 | 4 | Agents: plain loop with tools, then LangGraph supervisor, multi-hop, human approval |
 | 5 | Sessions, context engineering, loop controls, Redis caching, prompt injection defense |
-| 6 | Eval harness in CI, tracing (Langfuse), FastAPI, AWS deployment with Terraform |
+| 6 | Eval harness in CI, CD, tracing (Langfuse), FastAPI, AWS deployment with Terraform |
 
 ## Current status
 - 3-day sprint (Nov 2026): Day 1 understand the data + AWS basics (budget alert, IAM role, S3 bucket via
