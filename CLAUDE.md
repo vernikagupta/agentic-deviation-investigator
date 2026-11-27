@@ -49,7 +49,7 @@ Terraform.
 | Phase | Content |
 |---|---|
 | 1 | Synthetic data (done: `datagen/`, 2 years of daily drops, 15 acceptance tests) |
-| 1b | Minimal CI (D-010): GitHub Actions runs pytest on every PR, branch protection on `main`. Before Day 2 |
+| 1b | Minimal CI (D-010): GitHub Actions runs pytest on every PR, branch protection on `main`. Before landing + bronze |
 | 2 | Ingestion: S3 landing → bronze (Parquet + source metadata) → silver (schema mapping, aliases, units, UTC, dedupe, upsert resolution, ERP reversals, data quality + quarantine) → gold (one row per assembly with batch match, lot, crew, autoclave cycle, cycles since service) |
 | 3 | Anomaly detection per station (control charts, Nelson rules, percentile limits, then ML) |
 | 4 | Agents: plain loop with tools, then LangGraph supervisor, multi-hop, human approval |
@@ -57,8 +57,20 @@ Terraform.
 | 6 | Eval harness in CI, CD, tracing (Langfuse), FastAPI, AWS deployment with Terraform |
 
 ## Current status
-- 3-day sprint (Nov 2026): Day 1 understand the data + AWS basics (budget alert, IAM role, S3 bucket via
-  Terraform); Day 2 landing + bronze; Day 3 silver.
+- Tracked by milestones, not dates (hours per week not fixed). A milestone is done when it works and she
+  can explain it:
+  1. Data walkthrough (she can explain every table and its problems)
+  2. AWS basics (budget alert, IAM role, S3 bucket via Terraform) + minimal CI (Phase 1b)
+  3. Landing + bronze
+  4. Silver (realistically 1-2 weeks of learning work, not one day)
+  5. Gold (one row per assembly with batch match)
+  6. Thin slice: one scenario end to end (raw → detection → agent investigation → human approval → eval
+     score). Start applying for jobs here.
+  7. The rest: all stations, LangGraph, caching, deployment
+- Rough estimate for the full project: 4-5 months full-time, 8-10 months part-time. After each milestone,
+  give her a rough time for the next one.
+- Docs done: `PROBLEM_STATEMENT.md` (problems, end users, acceptance criteria), `DOMAIN_NOTES.md`
+  (process, timing, batch size), `DATA_OVERVIEW.md` (systems, delivery, recording, scale).
 - Data generated and tests passing on her laptop.
 - Setup done: VS Code Claude Code extension installed; claude.ai project created with this folder and
   project instructions.
