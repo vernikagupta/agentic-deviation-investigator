@@ -1,94 +1,83 @@
-# Synthetic Data: Sterile Syringe Fill Line
+# Synthetic Data: Sterile Syringe Fill Line (v2)
 
-Fictional, deterministic data for a sterile prefilled-syringe fill line. 3 lines, 120 days
-(1 Jun – 29 Sep 2026), about 225 batches. **Nothing here comes from a real company or plant.**
-Equipment IDs, vendors, products and spec limits are all made up.
+Fictional, deterministic data for a sterile prefilled-syringe fill line: 3 lines, **2 years**
+(1 Oct 2024 – 30 Sep 2026), about 1,370 batches and 2,780 filter assemblies, delivered as **daily drops**
+from each source system. **Nothing here comes from a real company or plant.**
 
-Regenerate with `python -m datagen.generate` (seed 42, same output every time).
+```bash
+python -m datagen.generate   # ~1 minute, same output every time (seed 42)
+```
+
+`data/raw/` and `data/eval/` are generated locally and not committed (about 200 MB). In production the
+drops would land in object storage (S3), not in git.
 
 ## The line
 
 ```
 Tub (160 syringes, 10x16) → Tyvek removal robot → filter carts → rotary filler (10 needles) → vacuum stoppering
 
-Per batch, each line uses two filter integrity test carts:
-  cart 1 = formulation filtration, cart 2 = final-fill filtration
-  build assembly → wet → Pre-IT → autoclave → PUPSIT → filtration during batch → post-use test
+Two filter integrity test carts per line: cart 1 = formulation filtration, cart 2 = final-fill filtration
+Per batch and cart: build assembly → wet → Pre-IT → autoclave → PUPSIT → filtration → post-use test
 ```
 
-A failed test can be repeated (max 3 attempts). If all attempts fail, the assembly is rejected, a
-deviation is opened and a replacement assembly is built. If the replacement also fails, the batch is cancelled.
+Failed tests are repeated (max 3 attempts). If all fail: deviation, replacement assembly; if that also
+fails, the batch is cancelled. Crews rotate (4 per line, day/night). Carts age slowly between yearly seal
+kit replacements.
 
-## Folder layout
+## Layout
 
-| Path | Source system | Grain |
-|---|---|---|
-| `raw/historian/assembly_summary/LINE-*_export_*.csv` | Historian export (Seeq-style) | One row per filter assembly |
-| `raw/historian/test_signals/FITC_*_YYYY-MM.csv` | Historian time series | One row per 2 s during tests |
-| `raw/mes/batches.csv` | MES | One row per batch |
-| `raw/erp/material_consumption.csv` | ERP | One row per material lot used per batch |
-| `raw/autoclave/cycles.csv` | Autoclave controller | One row per sterilization cycle |
-| `raw/cmms/work_orders.csv` | CMMS (maintenance) | One row per work order |
-| `raw/qms/deviations.csv` | QMS | One row per deviation |
-| `raw/line/tyvek_removal_alarms.csv` | Line PLC alarm log | One row per alarm |
-| `raw/line/filling_checks.csv` | Filler checkweigher | One row per needle per 30 min |
-| `raw/line/stoppering_checks.csv` | Stoppering station | One row per station per 30 min |
-| `raw/environment/room_conditions.csv` | Building management | One row per line per hour |
-| `reference/equipment_master.csv` | Asset register | One row per equipment |
-| `reference/spec_limits.yaml` | Specs | Limits |
-| `docs/*.md` | SOPs and guides | For the knowledge (RAG) agent |
-| `eval/` | **Answer key** | Offline evaluation only |
+```
+data/raw/drops/YYYY-MM-DD/
+  manifest.json                       files and row counts in this drop
+  historian/assembly_summary.csv      one row per filter assembly (Pre-IT, PUPSIT, wetting, attempts)
+  historian/post_use_tests.csv        post-use test results (arrive after the batch)
+  historian/test_signals.csv          long format: timestamp, tag, value, quality (stored on change)
+  historian/cart_alarms.csv           cart alarm log
+  mes/batches.csv                     batch records (upserts)
+  erp/material_movements.csv          material postings incl. reversals
+  qc/incoming_inspection.csv          filter lot incoming inspection
+  autoclave/cycles.csv                sterilization cycles
+  cmms/work_orders.csv                work orders (upserts)
+  qms/deviations.csv                  deviations (upserts)
+  line/tyvek_removal_alarms.csv       Tyvek removal robot alarms
+  line/filling_checks.csv             fill weight per needle every 30 min
+  line/stoppering_checks.csv          vacuum and plunger depth per station every 30 min
+  environment/room_conditions.csv     room temperature and humidity per line, hourly
+data/reference/                       equipment master (ID mapping across systems), spec limits
+data/docs/                            fictional SOPs and troubleshooting guides (for RAG)
+data/eval/                            ANSWER KEY - offline evaluation only
+```
 
-## Key columns
+A drop contains only what that system delivered that day. A file is missing from a drop when the system
+had nothing new.
 
-**Historian assembly summary:** `FIT_Cycle_Window` (assembly build start – PUPSIT end, UTC, as one string),
-`Cart` (alias, varies), `PreIT_Flow`, `PUPSIT_Flow`, `PostUse_Flow` (mL/min, final attempt), `Wetting_Time`
-(first wetting, text with " s"), `Attempts` (pre-IT attempts), `PUPSIT_Attempts`. **No batch ID**: assemblies
-must be matched to batches by time.
+## How each system behaves
 
-**Test signals:** `StepIndex` (recipe step: 0 idle, 100 init, 200–400 pressurize, 500 stabilize, 600 checks,
-1200 measure, 1300 test complete, 1400 release, 1500 cleanup, 9999 abort), `Pressure (mbar)`,
-`Diffusion Flow (mL/min)`. Valid final flow = value at StepIndex 1300.
-
-**MES batches:** `batch_id`, `line`, `product`, `recipe`, `batch_start`, `batch_end` (UTC), `status`,
-`tubs_processed`, `total_good`, `rejects`.
-
-**ERP material consumption:** `batch_id`, `material_code` (filter capsule, syringes, stoppers), `vendor_code`,
-`vendor_lot`, `step_text`, `posting_date` (local date).
-
-**Autoclave cycles:** `autoclave_id`, `cycle_start`, `cycle_end`, `max_chamber_temp_c`, `hold_time_min`,
-`load_description` (free text). No batch or assembly ID: join by time and line.
-
-**CMMS work orders:** `wonum`, `location` (CMMS location code, map via equipment master), `worktype`
-(PM, PMCAL, CM, SA), `createdate`, `actfinish` (local time), `description`, `longdescription` (HTML).
-
-## Deliberate data problems (handle them in ingestion)
-
-| Problem | Where |
+| System | Behaviour you must handle |
 |---|---|
-| Overlapping exports → duplicate rows, rows not in time order | Historian summary, test signals (month files overlap by 1 day) |
-| Cart written 4 ways (`A1`, `FITC_A1`, `Cart A1`, `FITC-A1`) | Historian summary, deviations |
-| `-` for missing values, `" s"` suffix on wetting time | Historian summary |
-| Flow `0` = aborted test, not a measurement | Historian |
-| Empty assembly rows (`Attempts` = 0) | Historian summary |
-| Historian compression drops the StepIndex 500 rows in ~30% of tests | Test signals |
-| Assembly-to-batch matching: ~82% start inside batch window, ~9% only end inside, ~9% in changeover gap | Historian vs MES |
-| Dummy batch `B000000`, incomplete batch `NA-PENDING` | MES |
-| Vendor lot blank in ~45% of filter rows (vendor code only) | ERP |
-| Two `step_text` variants for the same step | ERP |
-| Local time (IST, UTC+5:30), two date formats, truncated `statusdate`, HTML text | CMMS |
-| Legacy location names (`FITC-0n`) in older work orders | CMMS |
-| Unclear work type `SA` | CMMS |
-| Line C temperature in °F, other lines °C; ~1% hours missing | Environment |
-| Deviations appear 1–5 days after opening; recent ones not yet published | QMS |
-| Initial deviation assessments are sometimes wrong | QMS |
-| Different fill weight targets per product (1.0 mL vs 0.5 mL) | Filling |
+| Historian summary | No batch ID (match to batches by time: ~85% start inside the batch window, ~8% only end inside, ~7% in the changeover gap). Cart written 4 ways. `-` for missing. Flow `0` = aborted test. Rows with `Attempts` 0. ~2% of rows arrive 1–3 days late, ~1% delivered twice. Line A silent for 3 days (outage, day 300), then backfilled. |
+| **Schema change** (1 Oct 2025, historian upgrade) | Summary columns renamed (`Cart`→`Equipment`, `PreIT_Flow`→`PreIT_DiffFlow_mL_min`, one window string → `Cycle_Start_UTC` + `Cycle_End_UTC`, `Wetting_Time` "85 s" → `Wetting_Time_s` 85). Signal tags renamed (`FITC_A1.Pressure` → `PLT1.LA.FITC1.PRES_MBAR`). Map via `reference/equipment_master.csv`. |
+| Historian signals | Long format, values stored only when they change (irregular timestamps). StepIndex: 0 idle, 100 init, 200–400 pressurize, 500 stabilize, 600 checks, 1200 measure, **1300 test complete (valid final flow)**, 1400 release, 1500 cleanup, 9999 abort. A few values with quality `Questionable`. |
+| MES | Each batch arrives twice: `IN_PROGRESS` at start, final record (`COMPLETED`/`CANCELLED`, totals, comment) at end. Keep the latest by `record_updated_at`. Test batches `B000000`, `B000001`; incomplete `NA-PENDING`. |
+| ERP | Posted the day after use (local date). Movement `261` = issue, `262` = reversal (quantity −1). ~3% of filter postings use a wrong lot, then a reversal and a correct re-post a day or two later. Vendor lot blank in ~45% of filter rows. Two `step_text` variants. |
+| QC incoming | One row per filter lot at receipt. Lots can pass incoming inspection and still be defective. |
+| CMMS | Each work order arrives twice: `WAPPR` at creation (no finish, no notes), `COMP` at completion (with HTML notes). Local time (IST, UTC+5:30), two date formats, some truncated `statusdate`. Legacy location names (`FITC-0n`) before day 300. Work type `SA` is unclear. Notes are terse, with abbreviations and typos. `failurecode` column exists only from Feb 2026. |
+| QMS | Deviations arrive 1–5 days after opening (`Open`, with an initial assessment that can be wrong), then again when closed (`Closed`, with root cause). Investigations must only use what was available at the time. |
+| Environment | Line C in °F, others in °C. ~1% of hours missing. |
+| Filling | Fill weight target depends on the product (1.0 mL vs 0.5 mL). ~0.5% blank weights. |
 
-## What happened (summary only)
+## Statistics
 
-Nine planted events plus one red herring: equipment wear, a bad supplier lot, a sterilization fault, sensor
-drift, procedure errors, and benign changes. Some overlap in time on purpose. Full details, with windows and
-confirmed causes, are in `eval/scenario_labels.json`.
+Flows are log-normal with a right tail (not normally distributed). Carts differ slightly from each other.
+Pre-IT and PUPSIT are only weakly correlated. Flows creep up as carts age and reset after seal replacement.
+Room temperature has a mild yearly cycle.
+
+## What happened
+
+Ten planted events plus one red herring over two years: equipment wear (twice on carts, the second a
+recurrence of the first), a bad supplier lot, a sterilization fault, sensor drift, a crew procedure issue,
+station problems, and a benign room temperature change. Several overlap in time on purpose. Details, windows,
+confirmed causes and a suggested "investigate as of" time per event are in `eval/scenario_labels.json`.
 
 ## Rule
 

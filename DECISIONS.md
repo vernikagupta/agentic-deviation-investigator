@@ -44,3 +44,23 @@ One entry per major decision: what we chose, what else we considered, why.
 - **Why:** goal is maximum closeness to production. One cloud account for LLM, data and deployment;
   pgvector avoids an extra service at this scale; DuckDB is free and local; Langfuse is open source and
   self-hosted. Building the agent loop by hand first shows what LangGraph does underneath.
+
+## D-007 Dataset v2: two years, delivered as daily drops
+- **Chosen:** 730 days; each source system delivers a daily drop (`data/raw/drops/YYYY-MM-DD/<system>/`)
+  with realistic behaviour: upserts (MES, CMMS, QMS), ERP reversals, late and resent historian rows, a
+  3-day outage with backfill, a historian schema and tag-name change, and a CMMS column added mid-way.
+- **Considered:** one static 120-day snapshot (v1).
+- **Why:** v1 was too short for a 6-month training window and could not teach incremental loading,
+  idempotency, schema evolution or point-in-time investigation, which are core production skills.
+
+## D-008 Realistic statistics and text
+- **Chosen:** log-normal flows with a right tail, slow cart aging reset by seal replacement, yearly room
+  temperature cycle, crews and shifts, terse work order notes with abbreviations, incoming lot inspection,
+  cart alarm log, and a recurrence of an earlier failure (S10 repeats S1 on another cart).
+- **Why:** matches what real filter integrity data looks like (non-normal, drifting), and the recurrence
+  lets the agent use memory of past closed investigations.
+
+## D-009 Generated data is not committed
+- **Chosen:** `data/raw/` and `data/eval/` are gitignored; anyone can regenerate them deterministically.
+  Reference data, SOP docs and the data dictionary are committed.
+- **Why:** about 200 MB of CSVs does not belong in git. In production the drops land in S3.

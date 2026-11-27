@@ -8,7 +8,7 @@ approving the conclusion.
 Independent project. All data is synthetic and fictional.
 
 ## Status
-- [x] Synthetic dataset with planted scenarios and answer key (`datagen/`, `data/`)
+- [x] Synthetic dataset v2: 2 years of daily drops from 11 source systems, planted scenarios, answer key
 - [ ] Ingestion and data quality
 - [ ] Anomaly detection per station
 - [ ] Agent investigation (tools, orchestration, multi-hop, human approval)
@@ -18,7 +18,7 @@ Independent project. All data is synthetic and fictional.
 ## Quick start
 ```bash
 pip install -r requirements.txt
-python -m datagen.generate     # regenerate data/ (deterministic)
+python -m datagen.generate     # generate data/ (~1 min, deterministic, not committed)
 pytest tests                   # dataset acceptance tests
 ```
 

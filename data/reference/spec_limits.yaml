@@ -1,4 +1,4 @@
-# Fictional specification limits used by the line (not real values)
+# Fictional specification limits (not real values)
 pre_it_max_ml_min: 1.6
 pupsit_max_ml_min: 4.2
 post_use_max_ml_min: 4.5
@@ -10,3 +10,4 @@ plunger_depth_min_mm: 7.5
 plunger_depth_max_mm: 8.5
 autoclave_temp_min_c: 121.0
 autoclave_temp_max_c: 124.0
+filter_bubble_point_min_bar: 3.2
