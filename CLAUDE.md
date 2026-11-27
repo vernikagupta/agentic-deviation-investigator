@@ -56,9 +56,16 @@ Terraform.
 - 3-day sprint (Nov 2026): Day 1 understand the data + AWS basics (budget alert, IAM role, S3 bucket via
   Terraform); Day 2 landing + bronze; Day 3 silver.
 - Data generated and tests passing on her laptop.
+- Setup done: VS Code Claude Code extension installed; claude.ai project created with this folder and
+  project instructions.
 - **Where we are:** walking through the data together. She found the number of files overwhelming, so go
-  slowly: one table at a time, starting with one assembly row (historian summary) and the MES batches.
-- **Open question to her:** an assembly cycle ran 21:11–02:32 UTC; the nearest batch on that line has
-  batch_start 21:40. How would she match the assembly to a batch, and what could go wrong?
-  (Expected direction: time-window matching in stages — start inside window, then end inside, then
-  nearest — plus line constraint, upserts, changeover gaps, test batches, replacement assemblies.)
+  slowly: one table at a time.
+- **Open question to her (simple version, answer pending):** assembly on cart B1 (line B), cycle
+  3 Nov 2025 07:10–12:42 UTC. Line B batches: B405095 COMPLETED 1 Nov 18:02 – 2 Nov 22:37; B556224
+  IN_PROGRESS 3 Nov 06:30 (no end) and the same batch again COMPLETED 3 Nov 06:30 – 4 Nov 09:51;
+  B450245 IN_PROGRESS 4 Nov 17:05. Which batch does the assembly belong to, and how did she decide?
+  (Answer: B556224 — same line, assembly start falls inside its window; the two rows are one batch
+  delivered twice, keep the latest. Next, build up to harder cases: assembly starting before the
+  recorded batch start, assemblies in changeover gaps, test batches, replacement assemblies.)
+- After the data walkthrough: AWS basics (budget alert, IAM role, S3 bucket via Terraform), then landing
+  and bronze.
