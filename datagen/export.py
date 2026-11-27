@@ -152,6 +152,7 @@ class Exporter:
         a = self.f["assemblies"]
         att = self.f["attempts"]
         first_wet = att[att.test_type == "pre_it"].sort_values("attempt").groupby("assembly_id")["wetting_time_s"].first()
+        pup_wet = att[att.test_type == "pupsit"].sort_values("attempt").groupby("assembly_id")["wetting_time_s"].first()
 
         def dash(v):
             if v is None or (isinstance(v, float) and np.isnan(v)) or self.rng.random() < C.MISSING_DASH_RATE:
@@ -163,6 +164,7 @@ class Exporter:
             d = self.delivery_day(r.pupsit_end, r.line, historian=True)
             rows.append({"start": r.build_start, "end": r.pupsit_end, "cart": r.cart_id, "pre": dash(r.pre_it_flow),
                          "pup": dash(r.pupsit_flow), "wet": first_wet.get(r.assembly_id, np.nan),
+                         "wet2": pup_wet.get(r.assembly_id, np.nan),
                          "n_pre": int(r.pre_it_attempts), "n_pup": int(r.pupsit_attempts), "_drop": d})
             if self.rng.random() < C.HISTORIAN_RESEND_RATE:
                 rows.append({**rows[-1], "_drop": self.outage_remap(d + pd.Timedelta(days=1), r.line)})
@@ -170,7 +172,7 @@ class Exporter:
             t = pd.Timestamp(C.START + dt.timedelta(days=float(self.rng.uniform(0, C.DAYS))))
             line = str(self.rng.choice(C.LINES))
             rows.append({"start": t, "end": t + pd.Timedelta(minutes=12), "cart": f"FITC-{line}{self.rng.integers(1, 3)}",
-                         "pre": "-", "pup": "-", "wet": np.nan, "n_pre": 0, "n_pup": 0,
+                         "pre": "-", "pup": "-", "wet": np.nan, "wet2": np.nan, "n_pre": 0, "n_pup": 0,
                          "_drop": self.outage_remap(drop_day(t), line)})
         df = pd.DataFrame(rows)
         v1, v2 = df[df._drop < SCHEMA_DAY], df[df._drop >= SCHEMA_DAY]
@@ -178,13 +180,15 @@ class Exporter:
             "FIT_Cycle_Window": [f"{pd.Timestamp(s):%Y-%m-%d %H:%M:%S} - {pd.Timestamp(e):%Y-%m-%d %H:%M:%S}"
                                  for s, e in zip(v1.start, v1.end)],
             "Cart": [self.alias(c) for c in v1.cart], "PreIT_Flow": v1.pre.values, "PUPSIT_Flow": v1.pup.values,
-            "Wetting_Time": [f"{w:.0f} s" if not np.isnan(w) else "-" for w in v1.wet],
+            "Wetting_Time": [f"{w:.0f} s" if not np.isnan(w) else "-" for w in v1.wet],          # pre-IT wetting
+            "PUPSIT_Wetting_Time": [f"{w:.0f} s" if not np.isnan(w) else "-" for w in v1.wet2],
             "Attempts": v1.n_pre.values, "PUPSIT_Attempts": v1.n_pup.values, "_drop": v1._drop.values})
         out2 = pd.DataFrame({  # after the historian software upgrade
             "Cycle_Start_UTC": [iso(s) for s in v2.start], "Cycle_End_UTC": [iso(e) for e in v2.end],
             "Equipment": [self.alias(c) for c in v2.cart], "PreIT_DiffFlow_mL_min": v2.pre.values,
             "PUPSIT_DiffFlow_mL_min": v2.pup.values,
-            "Wetting_Time_s": [round(w) if not np.isnan(w) else "" for w in v2.wet],
+            "PreIT_Wetting_Time_s": [round(w) if not np.isnan(w) else "" for w in v2.wet],
+            "PUPSIT_Wetting_Time_s": [round(w) if not np.isnan(w) else "" for w in v2.wet2],
             "PreIT_Attempts": v2.n_pre.values, "PUPSIT_Attempts": v2.n_pup.values, "_drop": v2._drop.values})
         for out in (out1, out2):
             out["_keep_cols"] = 1

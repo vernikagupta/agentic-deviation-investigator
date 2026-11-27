@@ -17,7 +17,7 @@ drops would land in object storage (S3), not in git.
 Tub (160 syringes, 10x16) → Tyvek removal robot → filter carts → rotary filler (10 needles) → vacuum stoppering
 
 Two filter integrity test carts per line: cart 1 = formulation filtration, cart 2 = final-fill filtration
-Per batch and cart: build assembly → wet → Pre-IT → autoclave → PUPSIT → filtration → post-use test
+Per batch and cart: build assembly → wet → Pre-IT → autoclave → re-wet → PUPSIT → filtration → post-use test
 ```
 
 Failed tests are repeated (max 3 attempts). If all fail: deviation, replacement assembly; if that also
@@ -29,7 +29,7 @@ kit replacements.
 ```
 data/raw/drops/YYYY-MM-DD/
   manifest.json                       files and row counts in this drop
-  historian/assembly_summary.csv      one row per filter assembly (Pre-IT, PUPSIT, wetting, attempts)
+  historian/assembly_summary.csv      one row per filter assembly (Pre-IT, PUPSIT, both wetting times, attempts)
   historian/post_use_tests.csv        post-use test results (arrive after the batch)
   historian/test_signals.csv          long format: timestamp, tag, value, quality (stored on change)
   historian/cart_alarms.csv           cart alarm log
@@ -56,7 +56,7 @@ had nothing new.
 | System | Behaviour you must handle |
 |---|---|
 | Historian summary | No batch ID (match to batches by time: ~85% start inside the batch window, ~8% only end inside, ~7% in the changeover gap). Cart written 4 ways. `-` for missing. Flow `0` = aborted test. Rows with `Attempts` 0. ~2% of rows arrive 1–3 days late, ~1% delivered twice. Line A silent for 3 days (outage, day 300), then backfilled. |
-| **Schema change** (1 Oct 2025, historian upgrade) | Summary columns renamed (`Cart`→`Equipment`, `PreIT_Flow`→`PreIT_DiffFlow_mL_min`, one window string → `Cycle_Start_UTC` + `Cycle_End_UTC`, `Wetting_Time` "85 s" → `Wetting_Time_s` 85). Signal tags renamed (`FITC_A1.Pressure` → `PLT1.LA.FITC1.PRES_MBAR`). Map via `reference/equipment_master.csv`. |
+| **Schema change** (1 Oct 2025, historian upgrade) | Summary columns renamed (`Cart`→`Equipment`, `PreIT_Flow`→`PreIT_DiffFlow_mL_min`, one window string → `Cycle_Start_UTC` + `Cycle_End_UTC`, `Wetting_Time` "85 s" → `PreIT_Wetting_Time_s` 85, `PUPSIT_Wetting_Time` → `PUPSIT_Wetting_Time_s`). Note the old name `Wetting_Time` means pre-IT wetting only). Signal tags renamed (`FITC_A1.Pressure` → `PLT1.LA.FITC1.PRES_MBAR`). Map via `reference/equipment_master.csv`. |
 | Historian signals | Long format, values stored only when they change (irregular timestamps). StepIndex: 0 idle, 100 init, 200–400 pressurize, 500 stabilize, 600 checks, 1200 measure, **1300 test complete (valid final flow)**, 1400 release, 1500 cleanup, 9999 abort. A few values with quality `Questionable`. |
 | MES | Each batch arrives twice: `IN_PROGRESS` at start, final record (`COMPLETED`/`CANCELLED`, totals, comment) at end. Keep the latest by `record_updated_at`. Test batches `B000000`, `B000001`; incomplete `NA-PENDING`. |
 | ERP | Posted the day after use (local date). Movement `261` = issue, `262` = reversal (quantity −1). ~3% of filter postings use a wrong lot, then a reversal and a correct re-post a day or two later. Vendor lot blank in ~45% of filter rows. Two `step_text` variants. |

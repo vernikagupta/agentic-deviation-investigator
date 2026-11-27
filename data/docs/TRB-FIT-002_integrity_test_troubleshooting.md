@@ -7,7 +7,7 @@ status: fictional training document
 # Common causes of high diffusion flow
 | Pattern | Likely cause | What to check |
 |---|---|---|
-| First attempt fails, passes after re-wetting | Incomplete wetting | Wetting time, wetting method |
+| First attempt fails, passes after re-wetting | Incomplete wetting (before Pre-IT or before PUPSIT) | Wetting time of that test, wetting method, crew |
 | Fails on one cart across many filter lots | Cart leak (seals, fittings) or cart hardware | Cart leak test, seal condition, recent maintenance |
 | Fails on several carts using the same filter lot | Filter lot defect | Filter lot, supplier certificate, incoming inspection |
 | Pre-IT normal but PUPSIT high | Damage during sterilization | Autoclave cycle record: temperature, hold time |

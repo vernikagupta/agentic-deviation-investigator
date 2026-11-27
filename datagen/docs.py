@@ -27,9 +27,10 @@ Define how sterilizing-grade filter assemblies are integrity tested before and a
 2. Wet the membrane with water for injection. Minimum wetting time: {S['wetting_min_s']} s.
 3. Run the pre-use integrity test (Pre-IT, diffusion method). Limit: <= {S['pre_it_max_ml_min']} mL/min.
 4. Sterilize the assembly in the autoclave (121-124 C, minimum 30 min hold).
-5. Run PUPSIT (pre-use post-sterilization integrity test). Limit: <= {S['pupsit_max_ml_min']} mL/min.
-6. Use the assembly for filtration during the batch.
-7. After the batch, run the post-use integrity test. Limit: <= {S['post_use_max_ml_min']} mL/min.
+5. Re-wet the membrane (sterilization dries it). Minimum wetting time: {S['wetting_min_s']} s.
+6. Run PUPSIT (pre-use post-sterilization integrity test). Limit: <= {S['pupsit_max_ml_min']} mL/min.
+7. Use the assembly for filtration during the batch.
+8. After the batch, run the post-use integrity test. Limit: <= {S['post_use_max_ml_min']} mL/min.
 
 # Test pressure
 Diffusion tests are run at {S['test_pressure_mbar']} mbar. The test recipe steps are recorded by the cart
@@ -50,7 +51,7 @@ status: fictional training document
 # Common causes of high diffusion flow
 | Pattern | Likely cause | What to check |
 |---|---|---|
-| First attempt fails, passes after re-wetting | Incomplete wetting | Wetting time, wetting method |
+| First attempt fails, passes after re-wetting | Incomplete wetting (before Pre-IT or before PUPSIT) | Wetting time of that test, wetting method, crew |
 | Fails on one cart across many filter lots | Cart leak (seals, fittings) or cart hardware | Cart leak test, seal condition, recent maintenance |
 | Fails on several carts using the same filter lot | Filter lot defect | Filter lot, supplier certificate, incoming inspection |
 | Pre-IT normal but PUPSIT high | Damage during sterilization | Autoclave cycle record: temperature, hold time |

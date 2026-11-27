@@ -12,9 +12,10 @@ Define how sterilizing-grade filter assemblies are integrity tested before and a
 2. Wet the membrane with water for injection. Minimum wetting time: 60 s.
 3. Run the pre-use integrity test (Pre-IT, diffusion method). Limit: <= 1.6 mL/min.
 4. Sterilize the assembly in the autoclave (121-124 C, minimum 30 min hold).
-5. Run PUPSIT (pre-use post-sterilization integrity test). Limit: <= 4.2 mL/min.
-6. Use the assembly for filtration during the batch.
-7. After the batch, run the post-use integrity test. Limit: <= 4.5 mL/min.
+5. Re-wet the membrane (sterilization dries it). Minimum wetting time: 60 s.
+6. Run PUPSIT (pre-use post-sterilization integrity test). Limit: <= 4.2 mL/min.
+7. Use the assembly for filtration during the batch.
+8. After the batch, run the post-use integrity test. Limit: <= 4.5 mL/min.
 
 # Test pressure
 Diffusion tests are run at 2500 mbar. The test recipe steps are recorded by the cart

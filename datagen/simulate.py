@@ -164,7 +164,7 @@ class Simulator:
             attempt += 1
             reason = "normal"
             value = true_value * np.exp(self.rng.normal(0, 0.01))
-            if test_type == "pre_it" and attempt == 1 and wet is not None and wet < C.SPEC["wetting_min_s"]:
+            if attempt == 1 and wet is not None and wet < C.SPEC["wetting_min_s"]:
                 value = true_value + self.rng.uniform(0.9, 2.2)
                 reason = "incomplete_wetting"
             elif attempt == 1 and test_type != "post_use" and self.rng.random() < C.RANDOM_CONNECTION_FAIL:
@@ -184,7 +184,7 @@ class Simulator:
                 "assembly_id": a["assembly_id"], "cart_id": cart, "line": a["line"], "test_type": test_type,
                 "attempt": attempt, "start": t, "end": t + duration, "true_flow": round(value, 3),
                 "reported_flow": reported, "faulted": faulted, "passed": passed,
-                "wetting_time_s": round(wet, 1) if (wet is not None and test_type == "pre_it") else None,
+                "wetting_time_s": round(wet, 1) if wet is not None else None,
                 "reason": reason, "pressure_factor": factor, "leak": leak, "scenario_tags": ";".join(tags)})
             t += duration
             if passed or attempt >= 3:
@@ -232,9 +232,13 @@ class Simulator:
             a["_true"]["pup"] += self.rng.uniform(*C.SCENARIOS["S4_autoclave_overtemp"]["pupsit_shift"])
             a["_true"]["post"] = a["_true"]["pup"] + self.rng.uniform(0.05, 0.35)
             a["_true"]["tags"] = a["_true"]["tags"] + ["S4_autoclave_overtemp"]
-        start = cyc["end"] + td(minutes=self.rng.uniform(10, 45))
-        end, res, n, val = self.run_test(a, "pupsit", start, a["_true"]["pup"], C.SPEC["pupsit_max_ml_min"], None)
+        # Re-wet after sterilization: the autoclave dries the membrane.
+        wet_start = cyc["end"] + td(minutes=self.rng.uniform(10, 45))
+        wet = self.wetting_time(a["line"], wet_start, self.crew(a["line"], wet_start))
+        start = wet_start + td(seconds=wet + 60)
+        end, res, n, val = self.run_test(a, "pupsit", start, a["_true"]["pup"], C.SPEC["pupsit_max_ml_min"], wet)
         a.update({"autoclave_cycle_id": cyc["cycle_id"], "pupsit_start": start, "_pupsit_end": end,
+                  "pupsit_wetting_time_s": wet,
                   "pupsit_result": res, "pupsit_attempts": n, "pupsit_flow": val,
                   "scenario_tags": ";".join(dict.fromkeys(a["_true"]["tags"]))})
 
