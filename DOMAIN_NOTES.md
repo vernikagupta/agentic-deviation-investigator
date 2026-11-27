@@ -23,12 +23,19 @@ Each step lists what happens and why. See `PROBLEM_STATEMENT.md` for the problem
 - **Why:** a damaged membrane looks the same as a good one. The test is the only proof the filter is intact.
 - **How:**
   1. The membrane is wetted, so water fills the pores.
-  2. The cart applies gas pressure (2500 mbar) on one side.
+  2. The cart applies gas pressure (2500 mbar) on the inlet side, then closes off the gas supply.
   3. Intact membrane: only a small amount of gas dissolves in the water and passes through slowly. Low flow.
   4. Damaged membrane: gas passes through the open path. High flow.
-  5. The cart measures the flow in mL/min and compares it to the limit.
+  5. The cart measures how fast the **inlet pressure drops** (pressure decay) and calculates the diffusion
+     flow in mL/min from it, then compares it to the limit.
+- **Why measure on the inlet side:** nothing has to touch the filter outlet, which must stay sterile.
+- **Consequence:** any gas lost on the inlet side counts as flow through the filter. Temperature changes
+  during the test also shift the result.
+- **Simplification in our data:** the historian reports the calculated flow and the pressure signal; the
+  pressure falls faster when there is a leak.
 - **High flow does not always mean a bad filter.** It can also come from:
-  - a leak in the cart (for example a worn seal),
+  - a leak in the cart (for example a worn seal: gas escapes from the cart's own connections and is counted
+    as filter flow),
   - a bad connection,
   - a membrane that was not fully wetted,
   - a sensor reading wrong (a sensor drifting low can also hide a real failure).
