@@ -12,6 +12,8 @@ understand every piece before it is committed.
 1. **She gives the logic** in plain English (what to do). If her logic has a gap or a wrong order, say so
    with a short question or hint before writing code. Don't silently change her plan.
 2. **Claude writes one small piece** into the notebook or file: one step, about 5-15 lines, short comments.
+   **Every cell starts with `# WHAT:` and `# WHY:`.** WHY matters most: the reason the step is needed
+   (data problem, project need), not a restatement of the code.
 3. **She runs it** and says what the output means.
 4. **Feedback** in short points. If a line is important, ask one "why this line?" question.
    Weak answer → explain, ask again.

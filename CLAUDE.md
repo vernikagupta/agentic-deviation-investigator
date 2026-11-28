@@ -22,6 +22,8 @@ add new findings here as she confirms them).
    learn (theory, this project, AWS, CI/CD, agents) and must not get stuck on syntax. This matches her real
    role: she has directed and led teams, not hand-coded, for two years.
    - She gives the logic (what to do, in plain English); Claude writes the code into the file/notebook.
+   - **Every cell starts with `# WHAT:` and `# WHY:` comments.** WHY is the most important part: the
+     reason this step is needed (data problem, project need), not a restatement of the code.
    - **Small pieces only:** one step per cell (about 5-15 lines), with short comments. Never a whole
      notebook at once (she understood ~10% of a 20-cell notebook written in one go).
    - After each cell: she runs it, says what the output means, and Claude asks 1 "why this line?" question
