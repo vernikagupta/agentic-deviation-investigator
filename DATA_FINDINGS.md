@@ -53,7 +53,7 @@ Notebook: `notebooks/test_signal.ipynb` (done)
 ---
 
 ## mes/batches.csv
-Notebook: `notebooks/03_mes_batches.ipynb` (in progress)
+Notebook: `notebooks/03_mes_batches.ipynb` (done)
 
 **One row:** one version of one batch record. Each batch is sent twice: `IN_PROGRESS` at start (no end, no
 counts), then a final record (`COMPLETED` / `CANCELLED`) at the end. The latest version (`record_updated_at`) is
@@ -73,3 +73,4 @@ the true one.
 | 9 | No overlapping batches: on every line each batch starts after the previous one ended | 0 overlaps | still check in silver (an overlap would let one assembly match two batches) |
 | 10 | Gaps between batches on the same line: normal changeover 4–9 h (median ~7.3 h; 25% under 6 h, 75% under 9 h). 12 gaps > 24 h: year-end shutdown 145–176 h on all lines (ending 1 Jan 2025 and 1 Jan 2026), and 2 planned shutdowns per line of 50–78 h on different dates (one line at a time) | 1,370 gaps | an assembly in a normal changeover gap belongs to the **next** batch on that line; an assembly inside a shutdown gap is suspicious → flag |
 | 11 | The 2 extra missing drops (2025-02-06, 2025-04-20): no batch started or ended on those days → nothing to send, not data loss | 2 drops | a missing file is not always missing data; check for expected events before raising an alert |
+| 12 | No late records: every record arrives in the drop of the day it was written (`record_updated_at` date = drop date). Checked outside the notebook | 0 late | still accept past-dated records in silver (other files do arrive late) |

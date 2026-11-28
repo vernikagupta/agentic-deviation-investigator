@@ -109,7 +109,9 @@ Terraform.
   - **Table 2 `historian/test_signals.csv`: done** (findings test_signals #1–#11 in `DATA_FINDINGS.md`,
     decision D-011). Notebook pushed straight to main at her request (no PR). Pending: she says back the
     3 "done when" answers.
-  - **Next:** MES batches walkthrough (needed for batch matching in the thin slice), then milestone 2.
+  - **Table 3 `mes/batches.csv`: done** (findings mes/batches #1–#12, decision D-012: match assemblies to
+    completed and cancelled batches; product impact only completed). Pending: say-back.
+  - **Next:** milestone 2 (AWS basics + minimal CI, which she writes herself). Say-backs for tables 1–3 pending.
   - Pre-merge checks not yet a habit: she merged PR 1 without reviewing the diff. Remind her next PR.
 - **Open question to her (simple version, answer pending):** assembly on cart B1 (line B), cycle
   3 Nov 2025 07:10–12:42 UTC. Line B batches: B405095 COMPLETED 1 Nov 18:02 – 2 Nov 22:37; B556224
