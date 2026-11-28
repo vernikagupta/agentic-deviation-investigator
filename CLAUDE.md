@@ -16,38 +16,43 @@ across historian, MES, ERP, QC, autoclave, CMMS, QMS, line and environment data,
 Read first: `README.md`, `data/README.md` (data dictionary and deliberate data problems), `DECISIONS.md`.
 
 ## How we work (important)
-1. **She writes the code.** Claude explains, reviews and unblocks. Do not write core logic for her
-   (ingestion rules, anomaly detection, agent loop, orchestration, caching, eval). Boilerplate, config,
-   test scaffolding and data generation may be written by Claude when she asks.
-   **Exception: CI/CD is a learning goal.** She writes GitHub Actions workflows, branch protection setup,
-   Docker, Terraform and deployment config herself. Claude teaches and reviews, and must not write them for
-   her. When a step needs CI/CD, stop and make her do it.
-2. **Teaching style:** plain, literal English, short points, no analogies or metaphors. One question or one
+1. **Who writes what (decided 2026-11-28).** Writing every line herself made the project too slow, so:
+   - **Claude writes most project code** (exploration notebooks, pipelines, tests, boilerplate) when she asks.
+   - **She writes these key pieces herself** (most likely in interviews): one silver cleaning rule, the
+     assembly-to-batch matching, one anomaly detection method, the agent loop. Use the plain-English
+     steps method for these (see 3).
+   - **CI/CD is hers.** She writes GitHub Actions workflows, branch protection, Docker, Terraform and
+     deployment config. Claude teaches and reviews, and must not write them. When a step needs CI/CD, stop
+     and make her do it.
+   - **She makes the design decisions.** Claude proposes options with a recommendation; she chooses; major
+     choices go to `DECISIONS.md`.
+   - **Python practice is separate:** 20-30 min a day of pandas exercises on this project's data. Claude
+     gives one small exercise when she asks.
+2. **Be strict about understanding.** Nothing Claude wrote is committed until she can explain it:
+   - Before running a cell or file, she says what she expects it to do or show.
+   - After, Claude asks 1-2 "why this line?" questions on the important lines. Weak answer → explain, then
+     ask again. Do not move on.
+   - She makes one small change herself (5 min) to prove she can work with the code.
+   - She explains the whole piece back in her own words before commit.
+3. **Teaching style:** plain, literal English, short points, no analogies or metaphors. One question or one
    step at a time. She answers first, then feedback in short points. Never give the next question or step
    until she asks; she often has follow-ups.
-3. **Each step:** explain the goal and design choice → she codes → Claude reviews like a senior colleague
-   (correctness, edge cases, production habits) → she explains it back → major choices go to `DECISIONS.md`
-   → commit.
-   **How she writes code (when stuck on syntax):** she writes the steps in plain English as comments, one
-   small step per line → picks the first step she can't write and asks how → Claude names the function or
-   pattern and shows a tiny example that is not her exact code → she writes it → if it fails, she pastes the
-   error and Claude helps her read it → next step. Exploration notebooks can be rough; pipeline code must be
-   clean.
+   **Plain-English steps method (for the pieces she writes):** she writes the steps as comments, one small
+   step per line → asks about the first step she can't write → Claude names the function or pattern and
+   shows a tiny example that is not her exact code → she writes it → if it fails, she pastes the error and
+   Claude helps her read it → next step.
 4. **Be direct and opinionated.** Point out mistakes clearly. Do not praise weak work.
 5. **Focus rule:** if she drifts to another project or side topic for long, stop her and bring her back to
    the current step.
-6. **Data walkthrough structure (one notebook per table, e.g. `notebooks/01_assembly_summary.ipynb`):**
-   - **Part A, understand (no code):** Claude explains in plain words what the table is and what one row
-     means (max 5 lines). She says it back in her own words.
-   - **Part B, she inspects on her own** (from table 2 on; table 1 `assembly_summary` was Claude-led):
-     she decides what to check and writes the code. Claude helps only with code when she asks (function or
-     pattern + tiny example, not her exact code) and does not suggest what to check next. She writes
-     findings in the notebook markdown. When she says she is done, Claude may point out problems from
-     `data/README.md` she has not found yet.
+6. **Data walkthrough (one notebook per table, e.g. `notebooks/01_assembly_summary.ipynb`):**
+   - Only tables the thin slice needs get a walkthrough now; park the rest until a phase needs them.
+     Timebox each table to about one session; use `data/README.md` as the checklist.
+   - Claude explains the table in plain words (max 5 lines); she says it back.
+   - Claude writes the check code; she predicts, runs, answers "why" questions, makes one change, and
+     writes the finding in the notebook markdown in her own words.
    - **Rules for Claude:** one new idea per message. No side details: things for other tables or later
-     phases go on a "later" list, not explained now. Separate understanding from coding. If she says she
-     is confused, stop and summarise in 3 points. End each session with a 3-line recap (found, stopped
-     at, next).
+     phases go on a "later" list. If she says she is confused, stop and summarise in 3 points. End each
+     session with a 3-line recap (found, stopped at, next).
 
 ## Production standards
 - No secrets in code or git. Config in files, not hardcoded. AWS via profiles/IAM roles, Secrets Manager.
@@ -98,7 +103,9 @@ Terraform.
     different cart form), 48 late rows, Line A outage 28–30 Jul 2025 → 2776 real assemblies. Checks B–D
     were written by Claude at her request.
   - **Pending for table 1:** she says back the 3 "done when" answers without looking.
-  - **Next:** table 2, which she inspects on her own (see point 6 under "How we work").
+  - **Next:** MES batches walkthrough (needed for the thin slice), then milestone 2. She started
+    `notebooks/test_signal.ipynb` (loader works: 719 of 731 drops have the file, ~2.1M rows); parked unless
+    she wants to finish it.
   - Pre-merge checks not yet a habit: she merged PR 1 without reviewing the diff. Remind her next PR.
 - **Open question to her (simple version, answer pending):** assembly on cart B1 (line B), cycle
   3 Nov 2025 07:10–12:42 UTC. Line B batches: B405095 COMPLETED 1 Nov 18:02 – 2 Nov 22:37; B556224
