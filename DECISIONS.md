@@ -74,3 +74,14 @@ One entry per major decision: what we chose, what else we considered, why.
 - **Why:** the production standard "CI blocks merges on failure" cannot hold in Phases 2-5 without CI.
   Real teams add basic CI at the start; adding it late means months of code never checked automatically.
   CD waits because there is nothing to deploy until the API exists.
+
+## D-011 Questionable "test complete" readings: keep the result and flag it
+- **Chosen:** when the step-1300 ("test complete") reading of a test has quality `Questionable` but the
+  flow and pressure at that moment are `Good`, the test result is kept and used, with a flag
+  "step marker questionable" carried into silver and gold. More generally, Questionable rows are never
+  deleted; the quality flag is carried through.
+- **Considered:** A) use as normal and ignore the flag; C) quarantine the test until someone checks it.
+- **Why:** 27 tests affected; for all of them the result (flow) and condition (pressure ~2500 mbar) are
+  `Good`. Quarantining would block valid-looking results without a real reason; ignoring the flag would
+  silently drop a data quality signal, which is not acceptable in GMP. The flag lets the agent and the
+  reviewer see the doubt.
