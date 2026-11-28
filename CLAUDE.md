@@ -107,8 +107,8 @@ Terraform.
     were written by Claude at her request.
   - **Pending for table 1:** she says back the 3 "done when" answers without looking.
   - **Table 2 `historian/test_signals.csv`: done** (findings test_signals #1–#11 in `DATA_FINDINGS.md`,
-    decision D-011). Pending: she opens the PR for `notebooks/test_signal.ipynb` (branch
-    `explore/test-signals`, check Files changed before merging) and says back the 3 "done when" answers.
+    decision D-011). Notebook pushed straight to main at her request (no PR). Pending: she says back the
+    3 "done when" answers.
   - **Next:** MES batches walkthrough (needed for batch matching in the thin slice), then milestone 2.
   - Pre-merge checks not yet a habit: she merged PR 1 without reviewing the diff. Remind her next PR.
 - **Open question to her (simple version, answer pending):** assembly on cart B1 (line B), cycle
