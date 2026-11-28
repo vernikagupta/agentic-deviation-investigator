@@ -1,50 +1,38 @@
 ---
 name: guided-coding
-description: Guided writing for Vernika - Claude explains one small step and shows 1-5 lines of plain code, she types it herself, runs it and explains the output. Use when she says "guide me", "guided coding", "/guided-coding", or asks to write any notebook, pipeline or script code in this repo step by step.
+description: How to write code with Vernika in this repo - she gives the logic in plain English, Claude writes one small cell or step at a time with short comments, she runs it and explains the output. Use whenever she asks for notebook, pipeline or script code, or says "guide me", "guided coding", "/guided-coding".
 ---
 
 # Guided coding
 
-She understands code by **writing** it, not by reading code Claude wrote. Being stuck on syntax is what
-slows her down. So Claude removes the being stuck and keeps the writing.
+She directs and understands; Claude writes the code. She must not get stuck on syntax, and she must
+understand every piece before it is committed.
 
-## The logic is hers, the syntax is Claude's
-- **She writes the plain-English steps.** Claude never writes the step list for her.
-- Claude reviews her steps: if a step is missing, wrong or in the wrong order, say so with a short
-  question or hint (e.g. "what happens if a drop has no file?"). Don't rewrite her plan.
-- If her step is too big for 1-5 lines, ask her to split it.
-
-## Before the first step
-1. Confirm the goal in one line: which file, what it should do.
-2. Ask her for her steps in plain English. Review them as above. No code yet.
-
-## Each step (repeat)
-1. Take her next step. In 1-2 lines, name the function or pattern that does it.
-2. **Show** the syntax for that step only, **1-5 lines**, then explain each line in one short point.
-3. **She types it herself.** Remind her not to copy-paste.
-4. **She runs it** and says what the output means.
-5. **Feedback** in short points: right or wrong, and what she missed. If wrong, help her read the error;
-   don't just give the fix.
-6. **Stop.** Give the next step only when she says "next".
-
-## Every 2-3 steps
-Ask one "why this line?" question about an important line. Weak answer → explain, ask again.
-
-## Code style
-- Normal mid-level developer: plain loops and if-statements, simple pandas, one action per line.
-- Short comments. Descriptive variable names. No shadowing built-ins (`dir`, `list`, `id`).
-- No clever one-liners, dict unpacking, chained lambdas, `.pipe`, or advanced idioms.
-- Remind her of type traps when relevant: everything read with `dtype=str` is text until converted.
-
-## Teaching style
-- Plain, literal English. Short points. No analogies or metaphors.
-- One new idea per message. Side details go on a "later" list, not explained now.
-- If she says she is confused: stop, summarise in 3 points, ask which part is unclear.
+## Each step
+1. **She gives the logic** in plain English (what to do). If her logic has a gap or a wrong order, say so
+   with a short question or hint before writing code. Don't silently change her plan.
+2. **Claude writes one small piece** into the notebook or file: one step, about 5-15 lines, short comments.
+3. **She runs it** and says what the output means.
+4. **Feedback** in short points. If a line is important, ask one "why this line?" question.
+   Weak answer → explain, ask again.
+5. **Stop.** Next step only when she gives it.
 
 ## Never
-- Never hand her a whole cell, notebook or file of code at once.
+- Never write a whole notebook or many cells at once (she understood ~10% of a 20-cell notebook).
 - Never write CI/CD for her (GitHub Actions, branch protection, Docker, Terraform, deployment config).
 - Never read `data/eval/` (answer key).
 
+## Code style
+- Normal mid-level developer: plain loops and if-statements, simple pandas, one action per line.
+- Short comments. Descriptive variable names. Don't shadow built-ins (`dir`, `list`, `id`).
+- No clever one-liners, dict unpacking, chained lambdas, `.pipe`, or advanced idioms.
+- Mention type traps when relevant: everything read with `dtype=str` is text until converted.
+
+## Teaching style
+- Plain, literal English. Short points. No analogies or metaphors.
+- One new idea per message. Side details go on a "later" list.
+- If she says she is confused: stop, summarise in 3 points, ask which part is unclear.
+- Confirmed findings go into `DATA_FINDINGS.md`.
+
 ## End of session
-3-line recap: what she built, where she stopped, what the next step is.
+3-line recap: what was built, where we stopped, what comes next.

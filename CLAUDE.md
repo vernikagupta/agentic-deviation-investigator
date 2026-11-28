@@ -18,23 +18,17 @@ Read first: `README.md`, `data/README.md` (data dictionary and deliberate data p
 add new findings here as she confirms them).
 
 ## How we work (important)
-1. **She writes the code, with guided writing (decided 2026-11-28).** She understands by writing; reading
-   code Claude wrote does not work for her (she understood ~10% of a 20-cell notebook Claude wrote). Being
-   stuck on syntax made things slow, so remove the being stuck, not the writing:
-   - **The logic is hers, the syntax is Claude's.** She writes the plain-English steps; Claude never writes
-     the step list for her. Claude reviews her steps and flags gaps with a short question or hint, without
-     rewriting her plan.
-   - **Guided writing, one small step at a time** (skill: `.claude/skills/guided-coding`):
-     1. Claude takes her next step and names the function or pattern (1-2 lines).
-     2. Claude shows the syntax for that step (1-5 lines), explaining each line.
-     3. She **types it herself** (no copy-paste).
-     4. She runs it and says what the output means.
-     5. Claude gives short feedback. Next step only when she asks.
-   - **Never hand her a whole notebook or file of code.** One step, 1-5 lines, at a time.
+1. **Claude writes the code; she directs and understands (decided 2026-11-28, final).** She has a lot to
+   learn (theory, this project, AWS, CI/CD, agents) and must not get stuck on syntax. This matches her real
+   role: she has directed and led teams, not hand-coded, for two years.
+   - She gives the logic (what to do, in plain English); Claude writes the code into the file/notebook.
+   - **Small pieces only:** one step per cell (about 5-15 lines), with short comments. Never a whole
+     notebook at once (she understood ~10% of a 20-cell notebook written in one go).
+   - After each cell: she runs it, says what the output means, and Claude asks 1 "why this line?" question
+     when a line is important. The goal is understanding concepts, not typing.
    - **Code style:** write like a normal mid-level developer: plain loops and if-statements, simple pandas,
      one step per line, short comments. No clever one-liners, dict unpacking, chained lambdas or advanced
      idioms. The goal is code she understands and can defend.
-   - **Claude may write without guiding:** boilerplate, config, test scaffolding, data generation, when she asks.
    - **CI/CD is hers.** She writes GitHub Actions workflows, branch protection, Docker, Terraform and
      deployment config. Claude teaches and reviews, and must not write them. When a step needs CI/CD, stop
      and make her do it.
@@ -55,8 +49,8 @@ add new findings here as she confirms them).
    - Only tables the thin slice needs get a walkthrough now; park the rest until a phase needs them.
      Timebox each table to about one session; use `data/README.md` as the checklist.
    - Claude explains the table in plain words (max 5 lines); she says it back.
-   - Checks are done with guided writing (see 1). She writes the findings in the notebook markdown in her
-     own words.
+   - She says what to check; Claude writes one small cell per check (see 1). Findings go into
+     `DATA_FINDINGS.md`.
    - **Rules for Claude:** one new idea per message. No side details: things for other tables or later
      phases go on a "later" list. If she says she is confused, stop and summarise in 3 points. End each
      session with a 3-line recap (found, stopped at, next).
@@ -110,10 +104,9 @@ Terraform.
     different cart form), 48 late rows, Line A outage 28–30 Jul 2025 → 2776 real assemblies. Checks B–D
     were written by Claude at her request.
   - **Pending for table 1:** she says back the 3 "done when" answers without looking.
-  - **Next:** she rewrites `notebooks/test_signal.ipynb` herself with guided writing (Claude's code was
-    removed at her request; only imports and the table description remain). Known facts for guiding: 719 of
-    731 drops have the file (missing: Christmas shutdowns 27-31 Dec 2024 and 26-31 Dec 2025, plus
-    2026-10-01), ~2.1M rows, 36 tags (6 carts x 3 signals x 2 formats), 120 aborts (step 9999), 4041
+  - **Next:** continue `notebooks/test_signal.ipynb` (her loader + checks so far; Claude adds small cells).
+    Known facts: 719 of 731 drops have the file (missing: Christmas shutdowns 27-31 Dec 2024 and 26-31 Dec
+    2025, plus 2026-10-01), ~2.1M rows, 36 tags (6 carts x 3 signals x 2 formats), 120 aborts (step 9999), 4041
     Questionable rows incl. 27 on step 1300, late rows only in the 2025-08-01 drop (Line A backfill).
     Then MES batches, then milestone 2.
   - Pre-merge checks not yet a habit: she merged PR 1 without reviewing the diff. Remind her next PR.
