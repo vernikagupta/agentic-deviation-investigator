@@ -91,8 +91,15 @@ Terraform.
 - Data generated and tests passing on her laptop.
 - Setup done: VS Code Claude Code extension installed; claude.ai project created with this folder and
   project instructions.
-- **Where we are:** walking through the data together. She found the number of files overwhelming, so go
-  slowly: one table at a time.
+- **Where we are:** walking through the data, one table at a time, one notebook per table.
+  - **Table 1 `historian/assembly_summary.csv`: done and merged** (PR from `explore/assembly-summary`,
+    her first PR). Findings in `notebooks/01_assembly_summary.ipynb`: two header formats, `-` = missing,
+    cart written 4 ways, 27 junk rows (attempts 0, 12 min), 31 duplicates (next-day resend, 18 with a
+    different cart form), 48 late rows, Line A outage 28–30 Jul 2025 → 2776 real assemblies. Checks B–D
+    were written by Claude at her request.
+  - **Pending for table 1:** she says back the 3 "done when" answers without looking.
+  - **Next:** table 2, which she inspects on her own (see point 6 under "How we work").
+  - Pre-merge checks not yet a habit: she merged PR 1 without reviewing the diff. Remind her next PR.
 - **Open question to her (simple version, answer pending):** assembly on cart B1 (line B), cycle
   3 Nov 2025 07:10–12:42 UTC. Line B batches: B405095 COMPLETED 1 Nov 18:02 – 2 Nov 22:37; B556224
   IN_PROGRESS 3 Nov 06:30 (no end) and the same batch again COMPLETED 3 Nov 06:30 – 4 Nov 09:51;
