@@ -85,3 +85,14 @@ One entry per major decision: what we chose, what else we considered, why.
   `Good`. Quarantining would block valid-looking results without a real reason; ignoring the flag would
   silently drop a data quality signal, which is not acceptable in GMP. The flag lets the agent and the
   reviewer see the doubt.
+
+## D-012 Match assemblies to completed and cancelled batches; product impact only for completed
+- **Chosen:** when matching filter assemblies to MES batches (gold), use batches with final status
+  `COMPLETED` or `CANCELLED`. Exclude only test and placeholder records (`TEST` status, `B000000`,
+  `B000001`, `NA-PENDING`). Carry the batch `status` onto the matched assembly. Product impact (units
+  affected, release/reject) uses `COMPLETED` batches only.
+- **Considered:** match only to batches where filling happened (`COMPLETED`).
+- **Why:** all 13 cancelled batches have the comment "Batch cancelled - filter integrity failure on
+  replacement assembly". These are exactly the deviations the agent must investigate; excluding them would
+  cut the link between the failed assemblies and their batch. Cancelled batches have 0 tubs and 0 good
+  units, so they have no product impact.

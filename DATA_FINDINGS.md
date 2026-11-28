@@ -49,3 +49,25 @@ Notebook: `notebooks/test_signal.ipynb` (done)
 | 9 | Test pressure is 2500 mbar for all tests; pressure ~2500 (2490–2510) during steps 500–1400. Aborts (9999) stop at ~1025 mbar | – | result valid only if pressure ~2500 during measuring (1200–1300) |
 | 10 | Late rows: 2,459 rows arrive 2–4 days after the reading, **all in the 2025-08-01 drop, all line A** (A1 1,235, A2 1,224). This is the Line A outage 28–30 Jul 2025, backfilled; same event as assembly_summary #12. All other rows arrive the same day (lag 0). No negative lags | 2,459 | do not assume drop date = data date; incremental load must accept and insert rows for past dates |
 | 11 | Units are the same in old and new format: flow 0–~20 mL/min, pressure 0–~2514 mbar, step 0–9999 in both. Flow median slightly higher in new format (~4.0 vs ~3.7): too small for a unit change, possibly slow drift over time (for anomaly detection later) | – | mapping both formats to one signal is safe; no unit conversion needed |
+
+---
+
+## mes/batches.csv
+Notebook: `notebooks/03_mes_batches.ipynb` (in progress)
+
+**One row:** one version of one batch record. Each batch is sent twice: `IN_PROGRESS` at start (no end, no
+counts), then a final record (`COMPLETED` / `CANCELLED`) at the end. The latest version (`record_updated_at`) is
+the true one.
+**Rows:** 2,749 from 717 drops → **1,376 distinct batch IDs** (1,373 real batches + 3 test/placeholder).
+
+| # | Finding | Rows | Silver rule |
+|---|---|---|---|
+| 1 | File missing in 14 drops: the same 12 as signals (Christmas shutdowns, 2026-10-01) plus 2025-02-06 and 2025-04-20 | 14 drops | loader skips missing files; to check: why the 2 extra dates |
+| 2 | Each real batch has exactly 2 records (`IN_PROGRESS` + final) | 1,373 batches | keep the latest record per batch by `record_updated_at` |
+| 3 | 3 single-record batches are not real: `B000000`, `B000001` (status `TEST`) and `NA-PENDING` (no status). All line B, start at exactly 08:00:00, no end | 3 | quarantine ("test batch" / "pending ID"); exclude from matching |
+| 4 | Status of final records: `COMPLETED` 1,360, `CANCELLED` 13 | 1,373 | – |
+| 5 | Duration of `COMPLETED` batches: 19 h to 1 d 18 h, median ~1 d 6 h | 1,360 | batch window = `batch_start` to `batch_end` of the final record |
+| 6 | All 13 `CANCELLED` batches: 7 min to ~15 h long, 0 tubs, 0 good, 0 rejects. **Every comment says "Batch cancelled - filter integrity failure on replacement assembly".** Clustered: 6 in Jan 2026, 7 between 30 Mar and 3 Apr 2026 | 13 | **D-012:** include in assembly matching (they are the deviations to investigate); exclude from product impact |
+| 7 | Counts per `COMPLETED` batch: tubs 1,723–3,184 (median ~2,400); good units 274,367–506,815 (median ~381,000); rejects 576–3,907 (median ~1,860, about 0.5% of good) | 1,360 | convert to numbers (text sums join strings); reference ranges for later anomaly checks |
+| 8 | Counts are text after loading (`dtype=str`); summing text joins the strings ("2168"+"1779" = "21681779") with no error | – | convert count columns to numeric in silver |
+
