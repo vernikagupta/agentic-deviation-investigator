@@ -18,6 +18,9 @@ Read first: `README.md`, `data/README.md` (data dictionary and deliberate data p
 ## How we work (important)
 1. **Who writes what (decided 2026-11-28).** Writing every line herself made the project too slow, so:
    - **Claude writes most project code** (exploration notebooks, pipelines, tests, boilerplate) when she asks.
+     Write it like a normal mid-level developer: plain loops and if-statements, simple pandas, one step per
+     line, short comments. No clever one-liners, dict unpacking, chained lambdas or advanced idioms. The
+     goal is code she understands and can defend, not the best possible code.
    - **She writes these key pieces herself** (most likely in interviews): one silver cleaning rule, the
      assembly-to-batch matching, one anomaly detection method, the agent loop. Use the plain-English
      steps method for these (see 3).
