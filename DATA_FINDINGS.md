@@ -62,7 +62,7 @@ the true one.
 
 | # | Finding | Rows | Silver rule |
 |---|---|---|---|
-| 1 | File missing in 14 drops: the same 12 as signals (Christmas shutdowns, 2026-10-01) plus 2025-02-06 and 2025-04-20 | 14 drops | loader skips missing files; to check: why the 2 extra dates |
+| 1 | File missing in 14 drops: the same 12 as signals (Christmas shutdowns, 2026-10-01) plus 2025-02-06 and 2025-04-20 | 14 drops | loader skips missing files (see #11 for the 2 extra dates) |
 | 2 | Each real batch has exactly 2 records (`IN_PROGRESS` + final) | 1,373 batches | keep the latest record per batch by `record_updated_at` |
 | 3 | 3 single-record batches are not real: `B000000`, `B000001` (status `TEST`) and `NA-PENDING` (no status). All line B, start at exactly 08:00:00, no end | 3 | quarantine ("test batch" / "pending ID"); exclude from matching |
 | 4 | Status of final records: `COMPLETED` 1,360, `CANCELLED` 13 | 1,373 | – |
@@ -70,4 +70,6 @@ the true one.
 | 6 | All 13 `CANCELLED` batches: 7 min to ~15 h long, 0 tubs, 0 good, 0 rejects. **Every comment says "Batch cancelled - filter integrity failure on replacement assembly".** Clustered: 6 in Jan 2026, 7 between 30 Mar and 3 Apr 2026 | 13 | **D-012:** include in assembly matching (they are the deviations to investigate); exclude from product impact |
 | 7 | Counts per `COMPLETED` batch: tubs 1,723–3,184 (median ~2,400); good units 274,367–506,815 (median ~381,000); rejects 576–3,907 (median ~1,860, about 0.5% of good) | 1,360 | convert to numbers (text sums join strings); reference ranges for later anomaly checks |
 | 8 | Counts are text after loading (`dtype=str`); summing text joins the strings ("2168"+"1779" = "21681779") with no error | – | convert count columns to numeric in silver |
-
+| 9 | No overlapping batches: on every line each batch starts after the previous one ended | 0 overlaps | still check in silver (an overlap would let one assembly match two batches) |
+| 10 | Gaps between batches on the same line: normal changeover 4–9 h (median ~7.3 h; 25% under 6 h, 75% under 9 h). 12 gaps > 24 h: year-end shutdown 145–176 h on all lines (ending 1 Jan 2025 and 1 Jan 2026), and 2 planned shutdowns per line of 50–78 h on different dates (one line at a time) | 1,370 gaps | an assembly in a normal changeover gap belongs to the **next** batch on that line; an assembly inside a shutdown gap is suspicious → flag |
+| 11 | The 2 extra missing drops (2025-02-06, 2025-04-20): no batch started or ended on those days → nothing to send, not data loss | 2 drops | a missing file is not always missing data; check for expected events before raising an alert |
