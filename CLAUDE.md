@@ -106,11 +106,10 @@ Terraform.
     different cart form), 48 late rows, Line A outage 28–30 Jul 2025 → 2776 real assemblies. Checks B–D
     were written by Claude at her request.
   - **Pending for table 1:** she says back the 3 "done when" answers without looking.
-  - **Next:** continue `notebooks/test_signal.ipynb` (her loader + checks so far; Claude adds small cells).
-    Known facts: 719 of 731 drops have the file (missing: Christmas shutdowns 27-31 Dec 2024 and 26-31 Dec
-    2025, plus 2026-10-01), ~2.1M rows, 36 tags (6 carts x 3 signals x 2 formats), 120 aborts (step 9999), 4041
-    Questionable rows incl. 27 on step 1300, late rows only in the 2025-08-01 drop (Line A backfill).
-    Then MES batches, then milestone 2.
+  - **Table 2 `historian/test_signals.csv`: done** (findings test_signals #1–#11 in `DATA_FINDINGS.md`,
+    decision D-011). Pending: she opens the PR for `notebooks/test_signal.ipynb` (branch
+    `explore/test-signals`, check Files changed before merging) and says back the 3 "done when" answers.
+  - **Next:** MES batches walkthrough (needed for batch matching in the thin slice), then milestone 2.
   - Pre-merge checks not yet a habit: she merged PR 1 without reviewing the diff. Remind her next PR.
 - **Open question to her (simple version, answer pending):** assembly on cart B1 (line B), cycle
   3 Nov 2025 07:10–12:42 UTC. Line B batches: B405095 COMPLETED 1 Nov 18:02 – 2 Nov 22:37; B556224
