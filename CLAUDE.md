@@ -28,6 +28,11 @@ Read first: `README.md`, `data/README.md` (data dictionary and deliberate data p
 3. **Each step:** explain the goal and design choice → she codes → Claude reviews like a senior colleague
    (correctness, edge cases, production habits) → she explains it back → major choices go to `DECISIONS.md`
    → commit.
+   **How she writes code (when stuck on syntax):** she writes the steps in plain English as comments, one
+   small step per line → picks the first step she can't write and asks how → Claude names the function or
+   pattern and shows a tiny example that is not her exact code → she writes it → if it fails, she pastes the
+   error and Claude helps her read it → next step. Exploration notebooks can be rough; pipeline code must be
+   clean.
 4. **Be direct and opinionated.** Point out mistakes clearly. Do not praise weak work.
 5. **Focus rule:** if she drifts to another project or side topic for long, stop her and bring her back to
    the current step.
