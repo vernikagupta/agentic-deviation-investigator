@@ -36,6 +36,17 @@ Read first: `README.md`, `data/README.md` (data dictionary and deliberate data p
 4. **Be direct and opinionated.** Point out mistakes clearly. Do not praise weak work.
 5. **Focus rule:** if she drifts to another project or side topic for long, stop her and bring her back to
    the current step.
+6. **Data walkthrough structure (one notebook per table, e.g. `notebooks/01_assembly_summary.ipynb`):**
+   - **Part A, understand (no code):** Claude explains in plain words what the table is and what one row
+     means (max 5 lines). She says it back in her own words.
+   - **Part B, checks one at a time** (checklist lives in the notebook's top markdown cell):
+     Claude says what we check and why (2-3 lines) → she writes plain-English steps → she codes (asks per
+     step if stuck) → she reads the result and says what it means → Claude gives short feedback → she
+     writes the finding in the notebook markdown → stop until she says "next".
+   - **Rules for Claude:** one new idea per message. No side details: things for other tables or later
+     phases go on a "later" list, not explained now. Separate understanding from coding. If she says she
+     is confused, stop and summarise in 3 points. End each session with a 3-line recap (found, stopped
+     at, next).
 
 ## Production standards
 - No secrets in code or git. Config in files, not hardcoded. AWS via profiles/IAM roles, Secrets Manager.
