@@ -39,10 +39,11 @@ Read first: `README.md`, `data/README.md` (data dictionary and deliberate data p
 6. **Data walkthrough structure (one notebook per table, e.g. `notebooks/01_assembly_summary.ipynb`):**
    - **Part A, understand (no code):** Claude explains in plain words what the table is and what one row
      means (max 5 lines). She says it back in her own words.
-   - **Part B, checks one at a time** (checklist lives in the notebook's top markdown cell):
-     Claude says what we check and why (2-3 lines) → she writes plain-English steps → she codes (asks per
-     step if stuck) → she reads the result and says what it means → Claude gives short feedback → she
-     writes the finding in the notebook markdown → stop until she says "next".
+   - **Part B, she inspects on her own** (from table 2 on; table 1 `assembly_summary` was Claude-led):
+     she decides what to check and writes the code. Claude helps only with code when she asks (function or
+     pattern + tiny example, not her exact code) and does not suggest what to check next. She writes
+     findings in the notebook markdown. When she says she is done, Claude may point out problems from
+     `data/README.md` she has not found yet.
    - **Rules for Claude:** one new idea per message. No side details: things for other tables or later
      phases go on a "later" list, not explained now. Separate understanding from coding. If she says she
      is confused, stop and summarise in 3 points. End each session with a 3-line recap (found, stopped
