@@ -16,14 +16,20 @@ across historian, MES, ERP, QC, autoclave, CMMS, QMS, line and environment data,
 Read first: `README.md`, `data/README.md` (data dictionary and deliberate data problems), `DECISIONS.md`.
 
 ## How we work (important)
-1. **Who writes what (decided 2026-11-28).** Writing every line herself made the project too slow, so:
-   - **Claude writes most project code** (exploration notebooks, pipelines, tests, boilerplate) when she asks.
-     Write it like a normal mid-level developer: plain loops and if-statements, simple pandas, one step per
-     line, short comments. No clever one-liners, dict unpacking, chained lambdas or advanced idioms. The
-     goal is code she understands and can defend, not the best possible code.
-   - **She writes these key pieces herself** (most likely in interviews): one silver cleaning rule, the
-     assembly-to-batch matching, one anomaly detection method, the agent loop. Use the plain-English
-     steps method for these (see 3).
+1. **She writes the code, with guided writing (decided 2026-11-28).** She understands by writing; reading
+   code Claude wrote does not work for her (she understood ~10% of a 20-cell notebook Claude wrote). Being
+   stuck on syntax made things slow, so remove the being stuck, not the writing:
+   - **Guided writing, one small step at a time:**
+     1. Claude explains one small step in plain words (2-3 lines).
+     2. Claude shows the code for that step (1-5 lines), explaining each line.
+     3. She **types it herself** (no copy-paste).
+     4. She runs it and says what the output means.
+     5. Claude gives short feedback. Next step only when she asks.
+   - **Never hand her a whole notebook or file of code.** One step, 1-5 lines, at a time.
+   - **Code style:** write like a normal mid-level developer: plain loops and if-statements, simple pandas,
+     one step per line, short comments. No clever one-liners, dict unpacking, chained lambdas or advanced
+     idioms. The goal is code she understands and can defend.
+   - **Claude may write without guiding:** boilerplate, config, test scaffolding, data generation, when she asks.
    - **CI/CD is hers.** She writes GitHub Actions workflows, branch protection, Docker, Terraform and
      deployment config. Claude teaches and reviews, and must not write them. When a step needs CI/CD, stop
      and make her do it.
@@ -31,19 +37,12 @@ Read first: `README.md`, `data/README.md` (data dictionary and deliberate data p
      choices go to `DECISIONS.md`.
    - **Python practice is separate:** 20-30 min a day of pandas exercises on this project's data. Claude
      gives one small exercise when she asks.
-2. **Be strict about understanding.** Nothing Claude wrote is committed until she can explain it:
-   - Before running a cell or file, she says what she expects it to do or show.
-   - After, Claude asks 1-2 "why this line?" questions on the important lines. Weak answer → explain, then
-     ask again. Do not move on.
-   - She makes one small change herself (5 min) to prove she can work with the code.
-   - She explains the whole piece back in her own words before commit.
+2. **Be strict about understanding.** Nothing is committed until she can explain it. Ask 1-2 "why this
+   line?" questions on important lines; weak answer → explain, then ask again. She explains the whole
+   piece back in her own words before commit.
 3. **Teaching style:** plain, literal English, short points, no analogies or metaphors. One question or one
    step at a time. She answers first, then feedback in short points. Never give the next question or step
    until she asks; she often has follow-ups.
-   **Plain-English steps method (for the pieces she writes):** she writes the steps as comments, one small
-   step per line → asks about the first step she can't write → Claude names the function or pattern and
-   shows a tiny example that is not her exact code → she writes it → if it fails, she pastes the error and
-   Claude helps her read it → next step.
 4. **Be direct and opinionated.** Point out mistakes clearly. Do not praise weak work.
 5. **Focus rule:** if she drifts to another project or side topic for long, stop her and bring her back to
    the current step.
@@ -51,8 +50,8 @@ Read first: `README.md`, `data/README.md` (data dictionary and deliberate data p
    - Only tables the thin slice needs get a walkthrough now; park the rest until a phase needs them.
      Timebox each table to about one session; use `data/README.md` as the checklist.
    - Claude explains the table in plain words (max 5 lines); she says it back.
-   - Claude writes the check code; she predicts, runs, answers "why" questions, makes one change, and
-     writes the finding in the notebook markdown in her own words.
+   - Checks are done with guided writing (see 1). She writes the findings in the notebook markdown in her
+     own words.
    - **Rules for Claude:** one new idea per message. No side details: things for other tables or later
      phases go on a "later" list. If she says she is confused, stop and summarise in 3 points. End each
      session with a 3-line recap (found, stopped at, next).
@@ -106,9 +105,12 @@ Terraform.
     different cart form), 48 late rows, Line A outage 28–30 Jul 2025 → 2776 real assemblies. Checks B–D
     were written by Claude at her request.
   - **Pending for table 1:** she says back the 3 "done when" answers without looking.
-  - **Next:** MES batches walkthrough (needed for the thin slice), then milestone 2. She started
-    `notebooks/test_signal.ipynb` (loader works: 719 of 731 drops have the file, ~2.1M rows); parked unless
-    she wants to finish it.
+  - **Next:** she rewrites `notebooks/test_signal.ipynb` herself with guided writing (Claude's code was
+    removed at her request; only imports and the table description remain). Known facts for guiding: 719 of
+    731 drops have the file (missing: Christmas shutdowns 27-31 Dec 2024 and 26-31 Dec 2025, plus
+    2026-10-01), ~2.1M rows, 36 tags (6 carts x 3 signals x 2 formats), 120 aborts (step 9999), 4041
+    Questionable rows incl. 27 on step 1300, late rows only in the 2025-08-01 drop (Line A backfill).
+    Then MES batches, then milestone 2.
   - Pre-merge checks not yet a habit: she merged PR 1 without reviewing the diff. Remind her next PR.
 - **Open question to her (simple version, answer pending):** assembly on cart B1 (line B), cycle
   3 Nov 2025 07:10–12:42 UTC. Line B batches: B405095 COMPLETED 1 Nov 18:02 – 2 Nov 22:37; B556224
