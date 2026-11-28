@@ -13,7 +13,9 @@ fill line (Tyvek removal, two filter integrity test carts per line, rotary filli
 Filter integrity testing (Pre-IT, autoclave, PUPSIT, post-use) is the core. Agents investigate anomalies
 across historian, MES, ERP, QC, autoclave, CMMS, QMS, line and environment data, with human approval.
 
-Read first: `README.md`, `data/README.md` (data dictionary and deliberate data problems), `DECISIONS.md`.
+Read first: `README.md`, `data/README.md` (data dictionary and deliberate data problems), `DECISIONS.md`,
+`DATA_FINDINGS.md` (what the walkthrough found per file, with row counts and the silver rule for each;
+add new findings here as she confirms them).
 
 ## How we work (important)
 1. **She writes the code, with guided writing (decided 2026-11-28).** She understands by writing; reading
