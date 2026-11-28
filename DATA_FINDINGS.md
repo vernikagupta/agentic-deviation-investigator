@@ -30,7 +30,7 @@ Notebook: `notebooks/01_assembly_summary.ipynb`
 ---
 
 ## historian/test_signals.csv
-Notebook: `notebooks/test_signal.ipynb` (in progress)
+Notebook: `notebooks/test_signal.ipynb` (done)
 
 **One row:** one sensor reading: timestamp, tag (cart + signal), value, quality. Long format, stored on change.
 **Rows:** 2,125,464 from 719 drops.
@@ -48,3 +48,4 @@ Notebook: `notebooks/test_signal.ipynb` (in progress)
 | 8 | Completed tests (step 1300) per cart: 1,404–1,462, within ~4% → carts used evenly. Row counts are not a fair usage measure (stored on change) | 8,628 tests | – |
 | 9 | Test pressure is 2500 mbar for all tests; pressure ~2500 (2490–2510) during steps 500–1400. Aborts (9999) stop at ~1025 mbar | – | result valid only if pressure ~2500 during measuring (1200–1300) |
 | 10 | Late rows: 2,459 rows arrive 2–4 days after the reading, **all in the 2025-08-01 drop, all line A** (A1 1,235, A2 1,224). This is the Line A outage 28–30 Jul 2025, backfilled; same event as assembly_summary #12. All other rows arrive the same day (lag 0). No negative lags | 2,459 | do not assume drop date = data date; incremental load must accept and insert rows for past dates |
+| 11 | Units are the same in old and new format: flow 0–~20 mL/min, pressure 0–~2514 mbar, step 0–9999 in both. Flow median slightly higher in new format (~4.0 vs ~3.7): too small for a unit change, possibly slow drift over time (for anomaly detection later) | – | mapping both formats to one signal is safe; no unit conversion needed |
