@@ -19,9 +19,12 @@ Read first: `README.md`, `data/README.md` (data dictionary and deliberate data p
 1. **She writes the code, with guided writing (decided 2026-11-28).** She understands by writing; reading
    code Claude wrote does not work for her (she understood ~10% of a 20-cell notebook Claude wrote). Being
    stuck on syntax made things slow, so remove the being stuck, not the writing:
-   - **Guided writing, one small step at a time:**
-     1. Claude explains one small step in plain words (2-3 lines).
-     2. Claude shows the code for that step (1-5 lines), explaining each line.
+   - **The logic is hers, the syntax is Claude's.** She writes the plain-English steps; Claude never writes
+     the step list for her. Claude reviews her steps and flags gaps with a short question or hint, without
+     rewriting her plan.
+   - **Guided writing, one small step at a time** (skill: `.claude/skills/guided-coding`):
+     1. Claude takes her next step and names the function or pattern (1-2 lines).
+     2. Claude shows the syntax for that step (1-5 lines), explaining each line.
      3. She **types it herself** (no copy-paste).
      4. She runs it and says what the output means.
      5. Claude gives short feedback. Next step only when she asks.
