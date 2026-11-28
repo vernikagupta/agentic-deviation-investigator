@@ -63,6 +63,34 @@ Each step lists what happens and why. See `PROBLEM_STATEMENT.md` for the problem
   - a sensor reading wrong (a sensor drifting low can also hide a real failure).
   - This is why investigations are hard.
 
+### Test pressure and test steps
+- **Test pressure is 2500 mbar for every test** (Pre-IT, PUPSIT, post-use). Same recipe for all three.
+  Source: `data/reference/spec_limits.yaml` (`test_pressure_mbar`, fictional).
+- The cart records a **step** signal (StepIndex) showing which phase of the test it is in. Pressure seen in
+  the data at the start of each step:
+
+  | Step | What happens | Pressure |
+  |---|---|---|
+  | 0 | idle | ~0 mbar |
+  | 100-200 | init, start pressurizing | ~0 |
+  | 300-400 | pressurizing | ~625, then ~2125 |
+  | 500 | stabilize | ~2500 |
+  | 600 | checks | ~2500 |
+  | 1200 | measure | ~2500 |
+  | **1300** | **test complete: flow at this moment is the result** | ~2500 |
+  | 1400 | release pressure | ~2500, then falling |
+  | 1500 | cleanup | ~0 |
+  | 9999 | aborted (no result) | ~1025 (stopped while pressurizing) |
+
+- **Reaching 2500 mbar does not mean the test is complete.** It means the test conditions are reached; only
+  then can the cart measure.
+- **Step 1300 marks completion.** The flow at 1300 is the test result.
+- **Pressure is the test condition, not the result.** It should be stable at ~2500 mbar (2490-2510) during
+  measuring (1200-1300). Too low or falling → the flow result is not valid; a leak in the cart shows as
+  pressure dropping faster than normal.
+- Every completed test reaches step 1300 exactly once, so counting 1300s counts completed tests. Aborted
+  tests jump to 9999 and never reach 1300.
+
 ## 4. One batch, step by step
 
 ### Filter preparation (about 5 to 6.5 hours)
