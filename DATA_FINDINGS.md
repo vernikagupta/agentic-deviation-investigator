@@ -41,5 +41,9 @@ Notebook: `notebooks/test_signal.ipynb` (in progress)
 | 2 | No missing values in any column | 0 | – |
 | 3 | 36 distinct tags = 6 carts × 3 signals × 2 formats (old `FITC_A1.DiffFlow`, new `PLT1.LA.FITC1.FLOW_MLMIN`) | all | split tag into cart + signal; map both formats to one name |
 | 4 | No duplicates on the key (timestamp + tag) | 0 | still enforce the key in silver (unlike assembly summary) |
-| 5 | Quality: `Good` 2,121,423; other value 4,041 rows (README: `Questionable`) | 4,041 | to check: which signals, and what to do with them |
+| 5 | Quality `Questionable` on 4,041 rows (0.19%). Even spread: same rate on flow, pressure and step (~0.19–0.20%), on all 6 carts (624–721 each), and on all steps → looks like random sensor/communication noise, not an equipment problem. The data does not say why a reading is Questionable (in a real plant: ask the automation team) | 4,041 | keep the rows and carry the quality flag through; never delete them silently |
+| 5a | 27 Questionable readings are on step **1300 (test complete)**. For all 27, the flow (result) and pressure (~2500 mbar) at the same second are `Good` → the result looks trustworthy, only the completion marker is in doubt | 27 tests | **decision pending.** Options: A keep as normal, B keep + flag "step marker questionable", C quarantine. Recommendation: B |
 | 6 | Most common value is `0.0` (115,592 rows): flow before test start, step 0 = idle | – | to check after converting `value` to numbers |
+| 7 | Mapping: all 36 tags map to one cart ID (`equipment_master.csv`) and one signal name (flow, pressure, step); 0 unmapped | 0 unmapped | map via equipment master; quarantine unknown prefixes ("unknown tag prefix") |
+| 8 | Completed tests (step 1300) per cart: 1,404–1,462, within ~4% → carts used evenly. Row counts are not a fair usage measure (stored on change) | 8,628 tests | – |
+| 9 | Test pressure is 2500 mbar for all tests; pressure ~2500 (2490–2510) during steps 500–1400. Aborts (9999) stop at ~1025 mbar | – | result valid only if pressure ~2500 during measuring (1200–1300) |
